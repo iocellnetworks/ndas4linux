@@ -1,0 +1,60 @@
+NDAS device driver and sample administration tools 
+    for Toshiba TX49xx in big-endian mode, Montavista Linux 2.4.20 kernels
+    version 0.9.2
+    2005/06/01
+
+0. Overview
+   This driver is built to support Toshiba TX49xx MIPSEL CPU and Montavista Linux 2.4.20 kernels. The driver is composed of OS independent NDAS library("libndas.a" file. source code is not provided) and OS dependent source code. You can customize the source code according to the OS platform and requirement. 
+
+1. Prerequisites
+ * Prerequisites for HOST(development) machine
+   - Kernel-source configured for TX49xx Big-endian.
+   - Cross-compiler for TX49xx.
+ * Target Kernel configuration
+   - /proc file system support
+
+2. Building NDAS kernel module & administration tool
+ * Change configurations in Makefile file.
+   - Set NDAS_CROSS_COMPILE to proper compiler
+   - Set NDAS_KERNEL_VERSION to the version of kernel.
+   - Set NDAS_KERNEL_PATH to the kernel path. Because build process uses kernel's make rules, kernel source should be properly configured.
+ * Change optional configurations
+   - Change ndas-app-ldflags if you want use shared library for application.
+   - Change ndas-kernel-cflags "NDAS_IO_UNIT". This value means maximum transfer size in kbytes. Change this value according to ethernet hardware buffer size. Maximum value is 64. Usually 32 works for most environment, but reduce the number if performance is reduced by packet loss.
+ * Run make in source directory.
+
+3. Install & Run
+ * Boot the target board.
+ * Create device files using 'mknod.sh' script included in driver release.
+ * Install driver modules: 
+   insmod ndas_sal.o; insmod ndas_core.o; insmod ndas_block.o
+ * Start driver.
+   ndasadmin start
+ * Register disk.
+   ndasadmin register XXXXX-XXXXX-XXXXX-XXXXX-WWWWW -n DiskName
+ * Enable disk with slot number that is returned by registering. Enabled device is mapped to device file /dev/nda, /dev/ndb and each partition is mapped to /dev/nda1, /dev/nda2 and so on.
+   ndasadmin enable -s 1 -o w
+ * You can see the /proc/ndas/slots_info and /proc/ndas/devs file for current status of the registered netdisks.
+ * fdisk or mount to access the disk.
+   mount -t vfat /dev/nda1 mnt_p1
+   mount -t ext2 /dev/nda2 mnt_p2
+
+4. ndasadmin
+ * ndasadmin is a sample administration tools for controlling NDAS device driver.
+ * Execute ndasadmin for help. 
+
+5. Limitations
+ * We separated modules only to remove proprietary source code's dependency on LINUX GPL sources.You may merge three modules into one by modifying Makefile.  
+ * User to kernel interface is not fixed and stabilized yet.
+ * Currently this driver is tested on the RBTX4938 reference board with Montavista Linux Preview Edition
+ * Shared-writing on current NDAS device requires coordinations between hosts. MS Windows to non MS-windows sharing implementation is on the progress.
+ * Disk aggregation/mirroring/RAID implemented on MS windows is not supported.
+
+6. Contact
+ * If you have any question or problem, need changes in NDAS library or have features to  request, please contact Ximeta,Inc. (Sukjae Cho, sjcho@ximeta.com) 
+
+7. Change log
+ * 0.9.2
+    Fixed the problem that hangs while reading.
+    Minor bug fixes
+

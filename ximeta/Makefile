@@ -1,0 +1,15 @@
+#
+# Makefile for xplat
+#
+
+#
+# Find out the xplat src root directory
+#
+XPLAT_HOME?=$(shell pwd)
+nxp-root=$(XPLAT_HOME)
+
+include $(nxp-root)/arch/config.mk
+include $(nxp-root)/ndaslinux.mk
+include $(nxp-root)/common.mk
+include $(nxp-root)/arch/targets.mk
+
