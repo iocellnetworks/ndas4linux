@@ -4,8 +4,17 @@ The NDAS Driver was created by Ximeta Inc. Official development stopped around A
 
 The last active source code from Ximeta is in the "ximeta" directory of this repository. It should be updated and patched to operate on the latest kernels and then branched into a more manageable system that can be integrated into the kernel or at least packaged for standard distribution with any kernel version.
 
+As of this revision, there is no settled license for this full source code, so please leave copyrights and license statments intact. Most device driver portions are GNU GPL already, but you will find some sections that are copyrighted by Ximeta. Please send all feedback and suggestions for licensing, especially reasons why full gnu is preferred to linux@iocellnetworks.com, or post to the ndas4linux@iocellnetworks.com list.
+
 This code can export into various architectures and contains some projects that are no longer supported. 
 
 The patches were created by users at code.ximeta.com can be applied in order once the main export is done. 
 
 You will need a gcc compiler and make to create the driver. 
+
+Start with doc/howtobuild.txt for the basics. This will give you an exported version that would run on some system. 
+
+There are some premade targets in arch/targets. You can see how the nxp-* flags work in there. 
+
+Also in this directory you see noop.settings.scripts.tar. This fixes a bug that froze the system as soon as you enabled the NDAS Device. It is not made a patch, because the submitter was not sure if it is accpetable code or not, but it works and has a good idea in the readme.
+
