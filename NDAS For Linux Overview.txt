@@ -2,7 +2,7 @@ NDAS For Linux Overview
 
 The NDAS Driver was created by Ximeta Inc. Official development stopped around
 August 2008. It was working with Linux Kernel 2.6.24 at that time. Some NDAS
-user created patches that kept the driver working until kernel version 2.6.35. 
+users created patches that kept the driver working until kernel version 2.6.35. 
 
 The last active source code from Ximeta is in the "ximeta" directory of this
 repository. It should be updated and patched to operate on the latest kernels
@@ -22,6 +22,10 @@ that are no longer supported.
 
 The patches were created by users at code.ximeta.com can be applied in order 
 once the main export is done. 
+
+The history of bugs and public changes are online at the original trac server. 
+
+        http://ndas4linux.iocellnetworks.com
 
 You will need a gcc compiler and make to create the driver. 
 
