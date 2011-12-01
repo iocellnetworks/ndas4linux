@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+
+<title>: NDAS for ps2dev readme</title></head>
+
+
+
+
+
+
+<body>
+<img src="netdisk-cross-platform.png">
+<div id="tiki-clean">
+  <div id="tiki-mid">
+    	
+
+<table class="wikitopline">
+  <tbody><tr>
+            <td> </td>
+    </tr>
+</tbody></table>
+
+<div class="wikitext">
+<div class="titlebar"> NDAS for ps2dev readme </div><h3> 1. Directories
+</h3><font face="courier">./inc/ndasuser/*.h             - ndas library headers
+</font><br><font face="courier">./inc/sal/*.h                    - sal library headers
+</font><br><font face="courier">./lib/ndasuser.o            -  XIMETA NDAS Core library
+</font><br><font face="courier">./doc/                        - where you can infd this documents and other APIs documents
+</font><br><font face="courier">./src/sal                 -   System Abstraction layer source code
+</font><br><font face="courier">./src/smapx            -   modified smap IRX. to intercept the network packets.
+</font><br><font face="courier">./sample/irx            -    the sample demo code of NDAS IRX
+</font><br><font face="courier">./sample/test/ndbench.c        - test APIs
+</font><br><font face="courier">./sample/eesample/*.c          - <a &nbsp;title="no description" &nbsp;href="tiki-index.php?page=EmotionEngine" &nbsp;class="wiki">EmotionEngine</a> application sample              
+</font><br><font face="courier">./out                                    - the directory for naplink and where the object files are generated.
+</font><br>
+<br><h3> 2. NDAS userlib APIs 
+</h3>REFER TO THE SAMPLE CODE IN THE SECTION 5 BELOW.
+<br>ndas user library - the Network Direct Attach Storage library to co-work with application developers 
+<br>This is the XIMETA NDAS core module to access the data from the NetDisk and expose the APIs.
+<br>
+<br><ul><li> Driver initialization/cleanup:  
+<ul><li> ndas_init - initialize the ndas user library
+</li><li> ndas_cleanup - clean up the resources for user library
+</li></ul></li><li> Disk registration/unregistration
+<ul><li> ndas_register_device - register an NDAS box
+</li><li> ndas_unregister_device - unregister the NDAS box registered
+</li></ul></li><li> Enable/Disable
+<ul><li> ndas_enable_device - make the NDAS HDD ready for I/O
+</li><li> ndas_disable_device - disable the NDAS HDD for I/O
+</li></ul></li><li> Get disk information : alive status, enable status, disk size, 
+<ul><li> ndas_query_device - not fully implemented. only provides basic information
+</li></ul></li><li> disconnect hander registration/unregistration
+<ul><li> ndas_set_disconnect_handler - not tested
+</li></ul></li><li> disk id/key checking
+<ul><li> ndas_validate_idkey - not implemented
+</li></ul></li><li> Disk block io
+<ul><li> ndas_read_device - read the data from the given start secoter, and the size
+</li><li> ndas_write_device - write the data into the given start secoter, and the size
+</li></ul></li><li> Get list of netdisk on the network
+<ul><li> ndas_probe_device - list up the NDAS device on the lan.
+</li></ul></li></ul>
+<br><h3> 3. System Abstraction Layer
+</h3><font face="courier"> To make the NDAS userlib portable, the system dependent codes are extracted and provided as SAL APIs (sal_* functions).
+</font><br><font face="courier"> application developers can modify this implementation to support the network drivers and etc.  
+</font><br>
+<br><ul><li> mem.h
+<ul><li> memory allocation/free
+</li></ul></li><li> sync.h
+<ul><li> semaphore, mutex
+</li></ul></li><li> libc.h 
+<ul><li> to support any standard c libary that lacks in the OS
+</li></ul></li><li> debug.h
+<ul><li> to print out the log into screen and etc
+</li></ul></li><li> net.h
+<ul><li> network sockets
+</li></ul></li><li> time.h
+<ul><li> to access the system clock
+</li></ul></li><li> thread.h
+<ul><li> thread
+</li></ul></li><li> types.h
+<ul><li> data types that are system-neutral over the OSs
+</li></ul></li></ul>
+<br><h3> 4. How to build 
+</h3><h4> 4.1. Requirements
+</h4><font face="courier"> ps2dev  (default location in Makefile: /usr/local/ps2dev)
+</font><br><font face="courier"> ps2sdk (default location in Makefile: /usr/local/ps2dev/ps2sdk)
+</font><br><font face="courier"> ps2lib  (default location in Makefile: /usr/local/ps2dev/ps2lib)
+</font><br><font face="courier"> linux (or cygwin)
+</font><br><font face="courier"> naplink (not mandatory) 
+</font><br>
+<br><h4> 4.2. Compile
+</h4><font face="courier">  Modify the Makefile to the location of above libraries.
+</font><br><font face="courier">  just execute make
+</font><br><font face="courier">  the binaries are generated under ./out
+</font><br>
+<br><h4> 4.3. naplink
+</h4><font face="courier">  Download the ee application via naplink
+</font><br><font face="courier">  (the current codes are tested only via naplink)
+</font><br>
+<br><h3> 5. Sample disk IO code
+</h3>Initialize the library, register the NDAS disk , read 512*100 bytes and clean up.
+<br><div class="codelisting"><pre> 
+     int slot;
+     sal_init();
+     ndas_init();
+     ndas_regsiter_network_interface("sm1");
+     ndas_register_device(&amp;slot, "THISISNDASIDCDEFGHIJ","WRITEK",TRUE);
+     ndas_enable_device(slot);
+
+     ndas_unit_disk_io_reqeust req = {
+             .start_sec_low = 0,
+             .start_sec_hi = 0,
+              .num_sec = 100,
+              .buf = NULL
+     }
+     req.buf = malloc( 512 * 100);
+     
+     ndas_read_unit_device(slot, &amp;req);
+     ndas_disable_device(slot);
+     ndas_unregister_device(slot);
+     ndas_unregister_network_interface("sm1");
+     ndas_cleanup();
+     sal_cleanup();
+</pre></div>   <br>
+<br>6. Terms
+<br><dl><dt>NDAS device</dt><dd>NetDisk Hardware (board) , NDAS controller 
+</dd></dl><br><dl><dt>NDAS ID</dt><dd>This 20 charactered ID is shown
+outside the ((NDAS) device along with NDAS key. (aka device Serial -
+old name). assigned on factory </dd></dl><br><dl><dt>NDAS key</dt><dd>(aka Write Key - old name). the key to gain the write permision. assigned on factory 
+</dd></dl><br><dl><dt>NDAS device slot number</dt><dd>NDAS device slot number for an NDAS device
+</dd></dl><br><dl><dt>register NDAS device</dt><dd>allocate an 'NDAS slot number' for the NDAS device. and register the name named by user. 
+</dd></dl><br><dl><dt>enable NDAS device</dt><dd>make ready to be read/written. (or read only) 
+</dd></dl><br><dl><dt>disable NDAS device</dt><dd>make the device can't be read or neither be written. 
+</dd></dl><br><dl><dt>unregister NDAS device</dt><dd>destroy the 'NDAS slot number'. 
+</dd></dl><br><h3> 7. Notes
+</h3>The current codes work with IRXs from ps2sdk. so the codes should include the header files from ps2sdk.
+<br>Meanwhlie, the objects are linked with ps2lib for now. (not with ps2sdk).
+<br>
+<br>Once there are the network IRXs compiled with ps2lib, this dependecy to ps2sdk can be removed.<br>
+</div> 
+
+
+<p class="editdate">
+  Created by: <a class="link" href="mailto:jhpark@ximeta.com">Gene Park</a>
+  last modification: Thursday 22 of July, 2004 [14:31:13] by <a class="link" href="mailto:jhpark@ximeta.com">Gene Park</a>
+</p>
+
+
+  </div>
+</div>
+
+
+
+
+  
+
+    
+
+
+
+</body></html>

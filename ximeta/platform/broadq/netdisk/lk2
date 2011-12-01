@@ -1,0 +1,58 @@
+/* Script for -n: mix text and data on same page */
+/* Link script for PlayStation 2 IRXs
+ * Written by Douglas C. Knight <fsdck@uaf.edu>
+ */
+OUTPUT_FORMAT("elf32-littlemips")
+SEARCH_DIR("/usr/local/ps2-03-28-2004/ps2/lib");
+ENTRY(_start)
+SECTIONS
+{
+  /* This is the .iopmod section for the IRX, it contains
+     information that the IOP uses when loading the IRX.
+     This section is placed in its own segment.  */
+  .iopmod : {
+    /* The linker will replace this first LONG with a pointer
+       to _irx_id if the symbol has been defined.  */
+    LONG (0xffffffff) ;
+    LONG (_start) ;
+    LONG (_gp) ;
+    LONG (_text_size) ;
+    LONG (_data_size) ;
+    LONG (_bss_size) ;
+    /* The linker will put a SHORT here with the version of
+       the IRX (or zero if there is no version).  */
+    /* The linker will put a null terminated string here
+       containing the name of the IRX (or an empty string if
+       the name is not known).  */
+  }
+  . = 0x0 ;
+  _ftext = . ;
+  .text : {
+  CREATE_OBJECT_SYMBOLS
+    * ( .text* )
+	CONSTRUCTORS
+  } 
+  .data : {
+	* ( .data* )
+  }
+  .bss : {
+	* ( .bss* )
+  }
+  _etext  =  . ;
+  _fdata = . ;
+  . = ALIGN(16) ;
+  _gp = . + 0x8000 ;
+  _edata = . ;
+  . = ALIGN(4) ;
+  _fbss = . ;
+  _bss_start = . ;
+  _end = . ;
+  _text_size = _etext - _ftext ;
+  _data_size = _edata - _fdata ;
+  _bss_size = _end - _fbss ;
+  /* This is the stuff that we don't want to be put in an IRX.  */
+  /DISCARD/ : {
+	* ( .reginfo )
+	* ( .debug_abbre* )
+  }
+}

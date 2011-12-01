@@ -1,0 +1,15 @@
+/**********************************************************************
+ * Copyright ( C ) 2002-2005 XIMETA, Inc.
+ * All rights reserved.
+ **********************************************************************/
+DECLARE_EXPORT_TABLE(netdisk, 1, 1)
+	DECLARE_EXPORT(_start)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(shutdown)
+	DECLARE_EXPORT(_retonly)
+
+	/* 4 */
+	DECLARE_EXPORT(netdisk_irx_test_export)
+END_EXPORT_TABLE
+
+void _retonly() {}

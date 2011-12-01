@@ -1,0 +1,19 @@
+#!/bin/sh
+################################################################################
+# Copyright ( C ) 2002-2005 XIMETA, Inc.
+# All rights reserved.
+################################################################################
+if [ -z $already_running ]
+then
+    cp $0 /tmp/uninstall-ndas
+    chmod a+x /tmp/uninstall-ndas
+    ( cd / ; already_running=1 /tmp/uninstall-ndas &)
+    exit
+fi
+if [ -f /etc/init.d/ndas ] ; then 
+    /bin/sh /etc/init.d/ndas stop
+fi
+rm -f /dev/nd*
+rm -f /etc/init.d/ndas
+rm -f /etc/rc3.d/S98ndas
+/usr/bin/killall taskview

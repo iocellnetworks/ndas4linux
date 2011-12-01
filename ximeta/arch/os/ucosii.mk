@@ -1,0 +1,1 @@
+nxp-cflags+=-DUCOSII
