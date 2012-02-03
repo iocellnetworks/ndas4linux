@@ -1,0 +1,79 @@
+#ifndef _NDAS_ERRNO_H_
+#define _NDAS_ERRNO_H_
+
+#include <linux/errno.h>
+
+#define NDAS_OK                            		(0)
+
+#define NDAS_ERROR_ALREADY_REGISTERED_DEVICE	(-EEXIST)
+#define NDAS_ERROR_INVALID_PARAMETER			(-EINVAL)
+#define NDAS_ERROR_TIME_OUT						(-ETIME)
+#define NDAS_ERROR_OUT_OF_MEMORY				(-ENOMEM)
+#define NDAS_ERROR_TRY_AGAIN					(-EAGAIN)
+#define NDAS_ERROR_NO_WRITE_ACCESS_RIGHT		(-EACCES)
+#define NDAS_ERROR_NO_DEVICE                    (-ENODEV)
+#define NDAS_ERROR_NETWORK_FAIL         		(-EPIPE)
+
+
+
+#define NDAS_ERROR                         		(-10001)
+
+#define NDAS_ERROR_ALREADY_REGISTERED_NAME		(-10011)
+#define NDAS_ERROR_INVALID_NDAS_ID				(-10012)
+#define NDAS_ERROR_INVALID_NDAS_KEY				(-10013)
+#define NDAS_ERROR_INVALID_NAME					(-10014)
+#define NDAS_ERROR_ALREADY_ENABLED_DEVICE		(-10015)
+
+#define NDAS_ERROR_TOO_MANY_INVALID				(-10016)
+#define NDAS_ERROR_UNSUPPORTED_DISK_MODE		(-10017)
+#define NDAS_ERROR_INVALID_SLOT_NUMBER			(-10018)
+
+#define NDAS_ERROR_NOT_ONLINE					(-10019)
+#define NDAS_ERROR_TOO_MANY_OFFLINE				(-10021)
+
+#define NDAS_ERROR_UNSUPPORTED_HARDWARE_VERSION	(-10023)
+#define	NDAS_ERROR_ALREADY_DISABLED_DEVICE		(-10024)
+#define NDAS_ERROR_UNSUPPORTED_FEATURE			(-10025)
+
+#define NDAS_ERROR_ALREADY_STARTED              (-10026)
+#define NDAS_ERROR_ALREADY_STOPPED              (-10027)
+
+#define NDAS_ERROR_INVALID_HANDLE               (-10028)
+
+#define NDAS_ERROR_INVALID_RANGE_REQUEST      	(-10030) /* io request exceeds the size of disk*/
+#define NDAS_ERROR_READONLY                    	(-10031)
+#define NDAS_ERROR_HARDWARE_DEFECT    			(-10032)
+#define NDAS_ERROR_BAD_SECTOR            		(-10033)
+#define NDAS_ERROR_NOT_CONNECTED                (-10042)
+#define NDAS_ERROR_INVALID_OPERATION            (-10043)
+#define NDAS_ERROR_ACQUIRE_LOCK_FAILED          (-10044)
+
+#define NDAS_ERROR_DRIVER_NOT_LOADED            (-10050)
+#define NDAS_ERROR_DRIVER_ALREADY_LOADED        (-10051)
+#define NDAS_ERROR_LIBARARY_NOT_INITIALIZED    	(-10052)
+#define NDAS_ERROR_NOT_IMPLEMENTED              (-10053)
+#define NDAS_ERROR_WRITE_BUSY                   (-10054)
+
+#define NDAS_ERROR_SHUTDOWN_IN_PROGRESS     	(-20061)
+#define NDAS_ERROR_CONNECT_FAILED               (-20074)
+#define NDAS_ERROR_UNSUPPORTED_SOFTWARE_VERSION (-20075)
+#define NDAS_ERROR_BUFFER_OVERFLOW              (-20076) /* buffer size is not enough */
+#define NDAS_ERROR_INTERNAL                     (-20077) 
+
+
+#define NDAS_ERROR_HDD_DMA2_NOT_SUPPORTED 			(-20081)
+#define NDAS_ERROR_IDE_REMOTE_INITIATOR_NOT_EXIST	(-20082)
+#define NDAS_ERROR_IDE_REMOTE_INITIATOR_BAD_COMMAND (-20083)
+#define NDAS_ERROR_IDE_REMOTE_COMMAND_FAILED 		(-20084)
+#define NDAS_ERROR_IDE_REMOTE_AUTH_FAILED 			(-20085)
+#define NDAS_ERROR_IDE_TARGET_NOT_EXIST 			(-20086)
+#define NDAS_ERROR_IDE_TARGET_BROKEN_DATA 			(-20087)
+#define NDAS_ERROR_IDE_VENDOR_SPECIFIC 				(-20088)
+#define NDAS_ERROR_NO_NETWORK_INTERFACE             (-20089)
+#define NDAS_ERROR_SHUTDOWN                        	(-20090)
+#define NDAS_ERROR_LOCK_LOST                		(-20091)
+
+typedef int ndas_error_t;
+#define NDAS_SUCCESS(x) (NDAS_OK <= (ndas_error_t)(x))
+
+#endif // _NDAS_ERRNO_H_

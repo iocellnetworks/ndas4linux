@@ -1,0 +1,19 @@
+todo
+
+Search for and remove:
+	NDAS_MSHARE sections of all code
+	Kernel version < 2.6 code
+	jukebox code
+	ucosii references
+	ps2dev references
+	vxworks references
+	
+Replace
+	XIMETA Copyright and licenses with LICENSE IOCELL Networks GPL
+	Short XIMETA Copyrights with COPYRIGHT
+	
+Fix the bug where all subsequent devices seem to use the first
+device's request queue. "blkid bug" 
+
+Update to later kernel versions for delivery to linux/drivers/staging
+
