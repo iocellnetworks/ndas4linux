@@ -1,7 +1,7 @@
 //
 // NDAS HIX (Host Information Exchange) Protocol Definition
 //
-// Copyright (C) 2003-2005 XIMETA, Inc.
+// Copyright (C) 2012 IOCELL Networks
 // All rights reserved.
 //
 // Revision History:

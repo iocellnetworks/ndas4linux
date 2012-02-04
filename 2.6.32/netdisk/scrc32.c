@@ -1,7 +1,7 @@
 #ifndef NDAS_NO_LANSCSI
 /*++
 
-    Copyright (C) 2002-2004 XIMETA, Inc.
+    Copyright (C) 2012 IOCELL Networks
     All rights reserved.
 
     Initial implementation:

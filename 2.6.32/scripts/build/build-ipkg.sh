@@ -25,7 +25,7 @@ fi
 		echo Fail to Build $IPKG_MODULE or $IPKG_ADMIN
 		exit $?;
 	fi
-        ssh -l release code.ximeta.com mkdir -p dev/${NXP_VERSION}/${NXP_BUILD}/openwrt
-        ssh -l release code.ximeta.com mkdir -p dev/${NXP_VERSION}/${NXP_BUILD}/openwrt/$4
+        ssh -l linux ndas4linux.iocellnetworks.com mkdir -p dev/${NXP_VERSION}/${NXP_BUILD}/openwrt
+        ssh -l linux ndas4linux.iocellnetworks.com mkdir -p dev/${NXP_VERSION}/${NXP_BUILD}/openwrt/$4
 	scp $IPKG_MODULE $IPKG_ADMIN $RELEASE/$NXP_BUILD/openwrt/$4 ;
 )

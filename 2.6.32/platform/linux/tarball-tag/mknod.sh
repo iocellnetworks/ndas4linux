@@ -1,6 +1,6 @@
 #!/bin/sh
 # -------------------------------------------------------------------------
-# Copyright (c) 2002-2006, XIMETA, Inc., FREMONT, CA, USA.
+# Copyright (c) 2012 IOCELL Networks, Plainsboro, NJ, USA.
 # All rights reserved.
 #
 # LICENSE TERMS
@@ -43,7 +43,7 @@ if [ -e /sbin/udevd ] ; then
 fi
 
 #
-# To fix bug #53 of code.ximeta.com
+# To fix bug #53 of ndas4linux.iocellnetworks.com
 #
 RETRIAL=0
 while [ ! -e /proc/ndas/max_slot ];

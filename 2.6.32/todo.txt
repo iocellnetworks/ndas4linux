@@ -8,10 +8,6 @@ Search for and remove:
 	ps2dev references
 	vxworks references
 	
-Replace
-	XIMETA Copyright and licenses with LICENSE IOCELL Networks GPL
-	Short XIMETA Copyrights with COPYRIGHT
-	
 Fix the bug where all subsequent devices seem to use the first
 device's request queue. "blkid bug" 
 

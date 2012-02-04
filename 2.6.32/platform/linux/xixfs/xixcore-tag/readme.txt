@@ -30,5 +30,5 @@ readme.txt
   - 'xcsystem.c' and platform files must implement APIs in 'include/xcsystem/system.h'.
   - 'xcsysdep.h' and platform includes files must define structures in 'include/systypes.h'.
  
-Copyright ( C ) 2007 XIMETA, Inc.
+Copyright ( C ) 2012 IOCELL Networks
 All rights reserved.

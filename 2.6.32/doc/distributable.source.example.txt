@@ -38,7 +38,7 @@ mount /dev/ndas-00115232-0p1 /mnt/disk1
  * You can register NDAS device by serial numbers which can be retreived from /proc/ndas/probed
  * You can also access NDAS device by static device file with major 60, minor 0~255. Check for mknod.sh file.
  * Note that if you have only one registered device at a time, its slot number always is 1. In other cases, consult /proc/ndas/devices/<Device Name>/slots for exact slot number. 
- * See http://code.ximeta.com/trac-ndas/wiki/Usage for detailed usages. 
+ * See http://ndas4linux.iocellnetworks.com/trac-ndas/wiki/Usage for detailed usages. 
  
 3. About serial number
  * Using serial, you can access NDAS device without entering NDAS ID/key. But it is limited to read-only access.

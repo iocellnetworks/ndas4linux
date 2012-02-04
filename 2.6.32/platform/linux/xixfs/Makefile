@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------------
-# Copyright (c) 2002-2006, XIMETA, Inc., FREMONT, CA, USA.
+# Copyright (c) 2012 IOCELL Networks, Plainsboro, NJ, USA.
 # All rights reserved.
 #
 # LICENSE TERMS
@@ -248,7 +248,7 @@ ndas-module-src:=ndas_xixfs_main.c
 ndas-module-obj:=ndas_xixfs_main.o
 
 #
-# XIMETA NDAS driver administration tools
+# NDAS driver administration tools
 #
 all: ndas-kernel
 install: install-kernel-modules

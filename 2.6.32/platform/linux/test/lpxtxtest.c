@@ -1,6 +1,6 @@
 /*
  -------------------------------------------------------------------------
- Copyright (c) 2002-2005, XIMETA, Inc., IRVINE, CA, USA.
+ Copyright (c) 2012 IOCELL Networks, Plainsboro, NJ, USA.
  All rights reserved.
 
  LICENSE TERMS

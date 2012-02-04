@@ -1,6 +1,6 @@
 #!/sbin/runscript
 #
-# Copyright ( C ) 2002-2006  XIMETA, Inc
+# Copyright ( C ) 2012 IOCELL Networks
 # Modified 2007 andreaz@t-online (more gentoo like)
 #
 # Gentoo configuration
@@ -19,7 +19,7 @@ depend() {
 # Display the guide to report bug 
 #
 display_guide_to_report_bug() {
-    echo " Report this problem with the following messages at http://code.ximeta.com/cgi-bin/trac.cgi/newticket"
+    echo " Report this problem with the following messages at http://ndas4linux.iocellnetworks.com/cgi-bin/trac.cgi/newticket"
     echo "=============================================================================="
     cat /proc/version
     ls -l /lib/modules/*/kernel/drivers/block/ndas/*

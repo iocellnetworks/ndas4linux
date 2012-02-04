@@ -1,6 +1,6 @@
 /*
  -------------------------------------------------------------------------
- Copyright (c) 2002-2006, XIMETA, Inc., FREMONT, CA, USA.
+ Copyright (c) 2012 IOCELL Networks, Plainsboro, NJ, USA.
  All rights reserved.
 
  LICENSE TERMS
@@ -34,7 +34,9 @@
 #include "linux_ver.h"
 #include "sal/libc.h"
 
-/* Copyright for snprintf ; this code is derived work from newlib snprintf by XIMETA */
+/* Copyright for snprintf 
+ * this code is derived work from newlib snprintf by IOCELL Networks */
+
 /*
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.

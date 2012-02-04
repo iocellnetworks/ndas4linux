@@ -96,7 +96,7 @@ if ( $_SESSION['AUTH'] != "TRUE")
 	{                                             
 ?>                                                                              
     <img src="/img/logo.gif">
-    <h3>XIMETA Personal Web Hard</h3>
+    <h3>IOCELL Networks Personal Web Hard</h3>
     <form action="<?php echo $_SERVER["SCRIPT_NAME"]; ?>" method=POST>                                  
     <table>
      <tr>

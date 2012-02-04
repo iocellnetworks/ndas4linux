@@ -3,7 +3,7 @@
 //                        FAT32 File IO Library Linux Test Version
 //                                      V1.0L
 //                                       Rob Riglar
-//                                Copyright ( C ) 2002-2005 XIMETA, Inc. 
+//                                Copyright ( C ) 2012 IOCELL Networks 
 //
 //                         Email: admin@robs-projects.com
 //

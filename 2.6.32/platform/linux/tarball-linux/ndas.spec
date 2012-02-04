@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------
-# Copyright (c) 2002-2006, XIMETA, Inc., FREMONT, CA, USA.
+# Copyright (c) 2012 IOCELL Networks, Plainsboro, NJ, USA.
 # All rights reserved.
 #
 # LICENSE TERMS
@@ -183,17 +183,17 @@
 # Turn off debuginfo package
 %define debug_package %{nil}
 
-Summary: XIMETA,Inc NDAS Software for Linux operating system
+Summary: NDAS Software for Linux operating system
 Name: %{ndas_rpm_name}
 Epoch: %{ndas_rpm_epoch}
 Version: %{ndas_rpm_version}
 Release: %{ndas_rpm_release}
-Vendor: XIMETA, Inc
+Vendor: IOCELL Networks
 Packager: Gene Park (jhpark)
-License: Proprietary Copyright (c) XIMETA, Inc
+License: Proprietary Copyright (c) IOCELL Networks
 Group: System Environment/Kernel
 Source0: ndas-%{ndas_rpm_version}-%{ndas_rpm_build}NDAS_TARBALL_ARCH_MOD.tar.gz
-URL: http://code.ximeta.com
+URL: http://ndas4linux.iocellnetworks.com
 BuildRoot: %{_tmppath}/ndas-buildroot
 %if %{ndas_suse}
 BuildPrereq: /bin/uname /usr/bin/sed 
@@ -205,10 +205,10 @@ Obsoletes: ndas
 Provides: ndas
 ExclusiveArch: NDAS_RPM_ARCH
 %description 
-%{ndas_rpm_name} - This software allows the user to access the XIMETA NDAS device via the Network. This package only works with kernel version %{ndas_kernel_version_simple}.
+%{ndas_rpm_name} - This software allows the user to access the NDAS device via the Network. This package only works with kernel version %{ndas_kernel_version_simple}.
 
 %package -n ndas-admin
-Summary: Administration tool for XIMETA,Inc NDAS device.
+Summary: Administration tool for NDAS device.
 Group: System Environment/Base
 Release: %{ndas_rpm_build}
 Prereq: ndas = %{ndas_rpm_version}-%{ndas_rpm_build}
@@ -243,7 +243,7 @@ install -m 644 EULA.txt $RPM_BUILD_ROOT/usr/share/ndas/EULA.txt
 depmod > /dev/null 2>&1 || true
 %post -n ndas-admin
 if [ -f /dev/ndas ] ; then
-    rm -f /dev/ndas; # for ticket #44 of code.ximeta.com
+    rm -f /dev/ndas; # for ticket #44 of ndas4linux.iocellnetworks.com
 fi     
 
 if [ ! -f /etc/SuSE-release ] ; then

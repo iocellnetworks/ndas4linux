@@ -1,6 +1,6 @@
 /*
  -------------------------------------------------------------------------
- Copyright (c) 2002-2005, XIMETA, Inc., IRVINE, CA, USA.
+ Copyright (c) 2012 IOCELL Networks, Plainsboro, NJ, USA.
  All rights reserved.
 
  LICENSE TERMS
@@ -46,7 +46,7 @@
 #include "sal/thread.h"
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,10))
-MODULE_LICENSE("Proprietary, Send bug reports to support@ximeta.com");
+MODULE_LICENSE("Proprietary, Send bug reports to linux@iocellnetworks.com");
 #endif
 MODULE_AUTHOR("Ximeta, Inc.");
 

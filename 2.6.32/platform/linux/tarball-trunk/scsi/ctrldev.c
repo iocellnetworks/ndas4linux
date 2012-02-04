@@ -1,6 +1,6 @@
 /*
  -------------------------------------------------------------------------
- Copyright (c) 2002-2006, XIMETA, Inc., FREMONT, CA, USA.
+ Copyright (c) 2012 IOCELL Networks, Plainsboro, NJ, USA.
  All rights reserved.
 
  LICENSE TERMS
@@ -532,7 +532,7 @@ NDAS_CALL void ndcmd_dev_changed(const char* serial, const char *name, NDAS_DEV_
         if ( sinfo.mode == NDAS_DISK_MODE_UNKNOWN )
             continue;
         
-        /* for XIMETA Raid */
+        /* for NDAS RAID */
         err = ndas_query_unit(dinfo.slot[i], &uinfo);
         if ( !NDAS_SUCCESS(err) ) continue;
 

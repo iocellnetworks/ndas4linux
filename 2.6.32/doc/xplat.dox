@@ -11616,7 +11616,7 @@ Use=1
 WriteMissingFlagsAsText=1
 
 [General]
-Author=XIMETA, Inc
+Author=IOCELL Networks
 Copyright=Copyright (c) 2005. All rights reserved.
 Summary=NDAS APIs for 3rd party vendors
 Title=NDAS User Library

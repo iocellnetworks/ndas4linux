@@ -34,6 +34,6 @@ export NDAS_KERNEL_VERSION=$2 ;
 		echo Fail to Build $RPM.bin
 		exit $?;
 	fi
-        ssh -l jhpark code.ximeta.com mkdir -p dev/${NXP_VERSION}/${NXP_BUILD}/$4/
+        ssh -l linux ndas4linux.iocellnetworks.com mkdir -p dev/${NXP_VERSION}/${NXP_BUILD}/$4/
 	scp $BIN $RELEASE/$NXP_BUILD/$4/ ;
 )

@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# Copyright ( C ) 2002-2006  XIMETA, Inc
+# Copyright ( C ) 2012 IOCELL Networks
 #
 # Debian LSB information 
 # ref: http://linux.ximeta.com:8000/trac/ticket/1147
@@ -96,7 +96,7 @@ find_reason_fail() {
 # Display the guide to report bug 
 #
 display_guide_to_report_bug() {
-    echo " Report this problem with the following messages at http://code.ximeta.com/cgi-bin/trac.cgi/newticket";
+    echo " Report this problem with the following messages at http://ndas4linux.iocellnetworks.com/cgi-bin/trac.cgi/newticket";
     echo "==============================================================================";
     cat /proc/version;
     ls -l /lib/modules/*/kernel/drivers/block/ndas/*;

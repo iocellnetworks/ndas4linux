@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# Copyright ( C ) 2002-2006  XIMETA, Inc
+# Copyright ( C ) 2012 IOCELL Networks
 # 
 # SuSe configuration
 ### BEGIN INIT INFO
@@ -9,7 +9,7 @@
 # Required-Stop: $network
 # Default-Start: 2 3 4 5
 # Default-Stop: 0 1 6
-# Description: Start the XIMETA NDAS driver
+# Description: Start the NDAS driver
 ### END INIT INFO
 _sep_=':'
 _variants24_="smp deflt smp4G psmp"
@@ -72,7 +72,7 @@ function find_reason_fail() {
 # Display the guide to report bug 
 #
 function display_guide_to_report_bug() {
-    echo " Report this problem with the following messages at http://code.ximeta.com/cgi-bin/trac.cgi/newticket";
+    echo " Report this problem with the following messages at http://ndas4linux.iocellnetworks.com/cgi-bin/trac.cgi/newticket";
     echo "==============================================================================";
     cat /proc/version;
     ls -l /lib/modules/*/kernel/drivers/block/ndas/*;

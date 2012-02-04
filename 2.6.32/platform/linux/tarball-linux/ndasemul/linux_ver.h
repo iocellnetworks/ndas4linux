@@ -1,6 +1,6 @@
 /*
  -------------------------------------------------------------------------
- Copyright (c) 2002-2006, XIMETA, Inc., FREMONT, CA, USA.
+ Copyright (c) 2012 IOCELL Networks, Plainsboro, NJ, USA.
  All rights reserved.
 
  LICENSE TERMS
@@ -57,7 +57,7 @@
  * It was reported that the NDAS driver doesn't work well with CFQ i/o elevation scheduler of 2.6.13 or above kernels.
  * To make sure conservatively, I change the schedule from 2.6.12 kernels(not 2.6.13) until I have the exact information of
  * which version of the kernels it has the problem with.
- * URL: http://code.ximeta.com/cgi-bin/trac.cgi/ticket/20
+ * URL: http://ndas4linux.iocellnetworks.com/cgi-bin/trac.cgi/ticket/20
  */
 #define LINUX_VERSION_AVOID_CFQ_SCHEDULER (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,12))
 /*

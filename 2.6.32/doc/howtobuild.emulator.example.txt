@@ -4,7 +4,7 @@ NDAS Emulator, Driver and Management tool for EM86xx Linux kernel
    This driver is built to support EM86xx Linux 2.4.
    This driver is composed of OS independent NDAS library("libndas.a" file. source code is not provided) and OS dependent source code.
    You can customize the source code according to the OS platform and requirement.
-   And if you need changes in NDAS library or have feature request, please contact XIMETA, Inc.
+   And if you need changes in NDAS library or have feature request, please contact IOCELL Networks
 
 1. Building the driver
  * Set following enviroment varialbes.
@@ -53,7 +53,7 @@ mount /dev/nd/disc0/part1 /mnt/disk1
  * First NDAS device will be registered as /dev/hda if NDAS_DEVFS is not defined, and /dev/nd/disc0 if NDAS_DEVFS is defined.
  * Firt partition of first registered NDAS device is /dev/hda1 or /dev/nd/disc0/part1
  * Note that if you have only one registered device at a time, its slot number always is 1. In other cases, consult /proc/ndas/devices/<Device Name>/slots for exact slot number. 
-  * See http://code.ximeta.com/cgi-bin/trac.cgi/wiki/Usage for detailed usages. 
+  * See http://ndas4linux.iocellnetworks.com/cgi-bin/trac.cgi/wiki/Usage for detailed usages. 
  
 4. About serial number
  * This libndas.a uses serial number to register NDAS devices. So you must use serial numbers instead of ID. 
@@ -68,4 +68,4 @@ mount /dev/nd/disc0/part1 /mnt/disk1
  * We provided pre-built ndas_emu.o binary which uses "/dev/discs/disc0/disc" as target device. But you can change it by modifying ndas_emu_main.c and rebuild.
  * Source code of SAL is provided. You can use a file as target device instead of block device file by re-implementing of io.c.
  * libndas.a is not dependent on Linux kernel, so you may adopt minor kernel changes by fixing provided source code.
- * Visit http://code.ximeta.com for overall information about NDAS driver.(Emulator is not covered yet).
+ * Visit http://ndas4linux.iocellnetworks.com for overall information about NDAS driver.(Emulator is not covered yet).

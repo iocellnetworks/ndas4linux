@@ -1,11 +1,11 @@
 ################################################################################
-# Copyright ( C ) 2002-2005 XIMETA, Inc.
+# Copyright ( C ) 2012 IOCELL Networks
 # All rights reserved.
 #
-# XIMETA Internal code
-# This is the trade secret of XIMETA, Inc.
-# If you obtained this code without any permission of XIMETA, Inc.
-# Please email to support@ximeta.com
+# NDAS Internal code
+# This is the trade secret of IOCELL Networks
+# If you obtained this code without any permission of IOCELL Networks
+# Please email to linux@iocellnetworks.com
 # Thank You.
 ################################################################################
 #

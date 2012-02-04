@@ -33,5 +33,5 @@ export NDAS_OPENWRT_PATH=/home/sjcho/openwrt/whiterussian-0.9
 /bin/sh ./build-ipkg.sh ${NDAS_OPENWRT_PATH}/build_mipsel/linux 2.4.30 ${NDAS_OPENWRT_PATH}/staging_dir_mipsel/bin:${NDAS_OPENWRT_PATH}/staging_dir_mipsel/usr/bin whiterussian-0.9
 
 # Update current build link
-#ssh release@code.ximeta.com rm dev/current ";" ln -sf ./${NXP_VERSION}/${NXP_BUILD} dev/current
+#ssh release@ndas4linux.iocellnetworks.com rm dev/current ";" ln -sf ./${NXP_VERSION}/${NXP_BUILD} dev/current
 

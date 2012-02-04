@@ -111,7 +111,7 @@ typedef enum _lsp_vendor_cmd_code_t {
 } lsp_vendor_cmd_code_t;
 
 enum { 
-	LSP_VENDOR_ID_XIMETA = 0x0001,
+	LSP_VENDOR_ID_XIMETA=0x0001,
 	LSP_VENDOR_OP_VERSION_1_0 = 0x01,
 	LSP_VENDOR_OP_CURRENT_VERSION = LSP_VENDOR_OP_VERSION_1_0,
 };
@@ -662,7 +662,7 @@ typedef struct _lsp_pdu_op_data_t {
 		lsp_ide_data_v0_t ide_command_v0;
 
 		struct {
-			lsp_uint16_t vendor_id; /* 0x0001 as XIMETA */
+			lsp_uint16_t vendor_id; /*0x0001 asXIMETA*/
 			lsp_uint8_t vop_ver;
 			lsp_uint8_t vop_code;
 			lsp_uint8_t vop_parm[12];

@@ -1,10 +1,10 @@
 /**********************************************************************
- * Copyright ( C ) 2002-2005 XIMETA, Inc.
+ * Copyright ( C ) 2012 IOCELL Networks
  * All rights reserved.
  **********************************************************************/
-/* This is the internal source file of XIMETA, Inc, 
-   If you get this header file without any permission of XIMETA, Inc.
-   Please let us know support@ximeta.com
+/* This is the internal source file of IOCELL Networks 
+   If you get this header file without any permission of IOCELL Networks
+   Please let us know linux@iocellnetworks.com
 */
 /* Non Public APIs of LPX Protocol */
 

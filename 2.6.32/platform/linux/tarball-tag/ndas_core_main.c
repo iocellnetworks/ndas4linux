@@ -1,6 +1,6 @@
 /*
  -------------------------------------------------------------------------
- Copyright (c) 2002-2006, XIMETA, Inc., FREMONT, CA, USA.
+ Copyright (c) 2012 IOCELL Networks, Plainsboro, NJ, USA.
  All rights reserved.
 
 DEFINITIONS
@@ -20,12 +20,12 @@ the Software is licensed.
 LICENSE
 
 Grant of License.  Subject to Customer's compliance with this Agreement,
-XIMETA grants to Customer, and Customer purchases, a nonexclusive License to
+IOCELL Networks grants to Customer, and Customer purchases, a nonexclusive License to
 use the Software for non-commercial use only.  Rights not expressly granted by
-this Agreement are reserved by XIMETA.  Customer who wants to use the Software
-for commercial use must contact XIMETA to obtain the commercial License.
+this Agreement are reserved by IOCELL Networks.  Customer who wants to use the Software
+for commercial use must contact IOCELL Networks to obtain the commercial License.
 
-Customer purchases a License only. XIMETA retains title to and ownership of
+Customer purchases a License only. IOCELL Networks retains title to and ownership of
 the Software and Documentation and any copies thereof, including the originals
 provided with this Agreement.
 
@@ -62,15 +62,15 @@ and fitness for purpose.
 
 GENERAL PROVISIONS
 
-Indemnification.  Customer agrees that Customer shall defend and hold XIMETA
+Indemnification.  Customer agrees that Customer shall defend and hold IOCELL Networks
 harmless against any liability, claim, or suit and shall pay any related
 expense, including but not limited to reasonable attorneys' fees, arising out
-of any use of the Software or Content.  XIMETA reserves the right to control
-all litigation involving XIMETA, Customer, and third parties.
+of any use of the Software or Content.  IOCELL Networks reserves the right to control
+all litigation involving IOCELL Networks, Customer, and third parties.
 
 Entire Agreement.  This Agreement represents the entire agreement between
-XIMETA and Customer. No distributor, employee, or other person is authorized
-by XIMETA to modify this Agreement or to make any warranty or representation
+IOCELL Networks and Customer. No distributor, employee, or other person is authorized
+by IOCELL Networks to modify this Agreement or to make any warranty or representation
 which is different than, or in addition to, the warranties and representations
 of this Agreement.
 
@@ -103,7 +103,7 @@ California and of the United States of America.
 #include "sal/net.h"
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,10))
-MODULE_LICENSE("Proprietary, Send bug reports to support@ximeta.com");
+MODULE_LICENSE("Proprietary, Send bug reports to linux@iocellnetworks.com");
 #endif
 MODULE_AUTHOR("Ximeta, Inc.");
 
