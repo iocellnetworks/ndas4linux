@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # Copyright (c) 2011 IOCELL Networks Corp., Plainsboro NJ 08536, USA
-# All rights reserved. 
+# All rights reserved.
 # -----------------------------------------------------------------------------
 
 include scripts/lib.mk
@@ -51,7 +51,7 @@ ifeq ($(nxpo-debug),y)
 nxp-cflags += -DDEBUG  -O0 -g -DEXPORT_LOCAL
 else
 ifndef XPLAT_OPTIMIZATION
-nxp-cflags += -O2 
+nxp-cflags += -O2
 endif
 XPLAT_OPTIMIZATION?= -O2
 endif
@@ -107,7 +107,7 @@ endif
 
 ifneq ($(nxpo-ndaslinux),y)
 
-nxp-subdirs += xlib lpx netdisk lspx raid platform/$(nxp-os) xixfsevent 
+nxp-subdirs += xlib lpx netdisk lspx raid platform/$(nxp-os) xixfsevent
 include $(patsubst %,$(nxp-root)/%/module.mk,$(nxp-subdirs))
 
 else
@@ -124,11 +124,11 @@ nxp-cflags +=$(NDAS_EXTRA_CFLAGS)
 XPLAT_LDFLAGS +=$(NDAS_EXTRA_LDFLAGS)
 
 quiet_nxp_cmd_cc_o_c = CC      $@
-      nxp_cmd_cc_o_c = $(CC) -Wp,-MD,$@.d $(nxp-cflags) 	\
+      nxp_cmd_cc_o_c = $(CC) -Wp,-MD,$@.d $(nxp-cflags)		\
 		   $(XPLAT_OPTIMIZATION) -c -o $@ $<
 
 quiet_nxp_cmd_cpp_o_cpp = CPP     $@
-      nxp_cmd_cpp_o_cpp = $(CPP) -Wp,-MD,$@.d $(nxp-cflags) 	\
+      nxp_cmd_cpp_o_cpp = $(CPP) -Wp,-MD,$@.d $(nxp-cflags)	\
 		   $(XPLAT_OPTIMIZATION) -c -o $@ $<
 
 quiet_nxp_cmd_ld_o_o = LD      $@
@@ -136,7 +136,7 @@ quiet_nxp_cmd_ld_o_o = LD      $@
 
 
 quiet_nxp_cmd_cc_O0_o_c = CC      $@
-      nxp_cmd_cc_O0_o_c = $(CC) -Wp,-MD,$@.d $(nxp-cflags) 	\
+      nxp_cmd_cc_O0_o_c = $(CC) -Wp,-MD,$@.d $(nxp-cflags)	\
 		   -O0 -c -o $@ $<
 
 # default target is help message
@@ -144,7 +144,7 @@ quiet_nxp_cmd_cc_O0_o_c = CC      $@
 # Build rule to build SDK
 all: init compile
 
-init: $(CONFIG_H) scripts/basic/fixdep $(nxp-dist) $(nxp-build) 
+init: $(CONFIG_H) scripts/basic/fixdep $(nxp-dist) $(nxp-build)
 
 $(CONFIG_H): $(CONFIG_H).default
 	if [ ! -f $@ ] ; then \
@@ -152,17 +152,17 @@ $(CONFIG_H): $(CONFIG_H).default
 	fi
 	@echo modify $@ for your flavor
 
-compile: init 
+compile: init
 
 #
 # Compilation for lpx, netdisk, lspx, xlib
-# In linux, these object should be compiled 
+# In linux, these object should be compiled
 #
-nxp-normal-obj+= $(patsubst $(nxp-root)/%, %, $(nxp-lpx-obj) $(nxp-netdisk-obj) $(nxp-lspx-obj) $(nxp-xlib-obj)) $(nxp-raid-obj) $(nxp-xixfsevent-obj) 
+nxp-normal-obj+= $(patsubst $(nxp-root)/%, %, $(nxp-lpx-obj) $(nxp-netdisk-obj) $(nxp-lspx-obj) $(nxp-xlib-obj)) $(nxp-raid-obj) $(nxp-xixfsevent-obj)
 # On some compiler, there is a bug with O2/O1 option.
-# In that case, only source that might be compiled in wrong way, 
+# In that case, only source that might be compiled in wrong way,
 # should be compiler with -O0 option
-nxp-nonopt-obj:= 
+nxp-nonopt-obj:=
 #nxp-normal-obj:= $(filter-out $(nxp-nonopt-obj) $(nxp-normal-obj))
 $(nxp-normal-obj): $(nxp-build)/%.o : %.c scripts/basic/fixdep $(CONFIG_H)
 	$(call nxp_if_changed_dep,cc_o_c)
@@ -175,16 +175,16 @@ $(nxp-nonopt-obj): $(nxp-build)/%.o : %.c scripts/basic/fixdep $(CONFIG_H)
 #endif
 #
 # In linux, $(nxp-sal-obj) $(nxp-extra-obj) should be compiled over the specific kernel
-# $(nxp-extra-obj) specified by platform/$(nxp-os)/module.mk 
+# $(nxp-extra-obj) specified by platform/$(nxp-os)/module.mk
 #
 $(nxp-sal-obj) $(nxp-extra-obj): $(nxp-build)/%.o : %.c
 	$(call nxp_if_changed,cc_o_c)
 
 #
-# 
+#
 _symbols=$(strip $(shell $(NM) --defined-only $(1) | cut -d ' ' -f3 | sort |uniq))
 _public_symbols=$(filter ndas_% xixfs_% lpx_stm_backlog_recv,$(call _symbols,$(1)))
-_private_symbols=$(filter-out $(call _public_symbols,$(1)),$(call _symbols,$(1))) 
+_private_symbols=$(filter-out $(call _public_symbols,$(1)),$(call _symbols,$(1)))
 # Obfuscate the (defined) symbols in the objfile
 # $(1) : input objfile before obfuscation
 # $(2) : output objfile after obfuscation
@@ -220,7 +220,7 @@ $(nxp-lib-obj): $(nxp-lib-internal) $(nxp-netdisk-obj) \
 		$(nxp-lspx-obj) \
       $(nxp-xlib-obj) \
       $(nxp-lpx-obj) \
-		$(nxp-xixfsevent-obj)  
+		$(nxp-xixfsevent-obj)
 	cp $< $@
 endif
 
@@ -261,8 +261,8 @@ FORCE:
 help:
 	@echo Export a build folder for different linux systems.
 	@echo
-	@echo Usage: 
-	@echo "	make [target] to export a preconfigured option." 
+	@echo Usage:
+	@echo "	make [target] to export a preconfigured option."
 	@echo "	make nxp-vendor=[vendor] to use options for certain products."
 	@echo "Or set individual options from the lists below. Example: "
 	@echo "	make nxp-cpu=arm nxp-os=linux nxpo-pnp=y nxpo-persist=y"
@@ -297,11 +297,11 @@ help:
 	@echo "	openwrt.mk - router version"
 	@echo
 	@echo Command line options
-	@echo nxp-cpu=\[cpu\] to cross compile a certain architecture. 
+	@echo nxp-cpu=\[cpu\] to cross compile a certain architecture.
 	@echo "	arch/cpu has makefiles for the following:"
 	@echo "	arm  cris  i386  mipsel  mips  ppc  x86_64  x86"
 	@echo
-	@echo nxp-os=\[version\] create the system mode or usermode package. 
+	@echo nxp-os=\[version\] create the system mode or usermode package.
 	@echo "	arch/os has makefiles for the following:"
 	@echo "	linux linuxum"
 	@echo
@@ -312,7 +312,7 @@ help:
 	@echo "	openwrt.mk  - Open WRT version?"
 	@echo "	pogov2.mk - to cross compile the pogo plug pink model"
 	@echo "	whiterussian.mk - Open WRT version?"
-	@echo 
+	@echo
 	@echo nxpo-\[option]\=y to include various components and features
 	@echo "	* Option descriptions"
 	@echo "	nxpo-asy: set to support asynchrous block IO"
@@ -345,4 +345,3 @@ help:
 	@echo "	XPLAT_OBFUSCATE : set to obfuscate the internal symbols"
 	@echo "	XPLAT_OPTIMIZATION : set to force to change the compiler"
 	@echo
-

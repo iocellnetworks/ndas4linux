@@ -4,8 +4,8 @@ YOU ACCEPT THIS LICENSE AGREEMENT AND ARE BOUND BY ITS TERMS.
 
 DEFINITIONS
 
-Software.  "Software" means NDAS core binary as a form of "libndas.a." or 
-"ndas_core.o" or the binary created by linking "libndas.a" with other 
+Software.  "Software" means NDAS core binary as a form of "libndas.a." or
+"ndas_core.o" or the binary created by linking "libndas.a" with other
 executable binaries.
 
 Documentation.  "Documentation" means the manual and any other instructional
@@ -17,32 +17,32 @@ granted pursuant to the provisions of this Agreement.
 Customer.  "Customer" means the person or business entity to whom this copy of
 the Software is licensed.
 
-NDAS. IOCELL Networks' patented network storage architecture that allows direct 
+NDAS. IOCELL Networks' patented network storage architecture that allows direct
 attachment of existing ATA/ATAPI devices to Ethernet without a separate server.
-Unlike other architectures such NAS, SAN, and USB mass storage, no server 
+Unlike other architectures such NAS, SAN, and USB mass storage, no server
 computer intervenes between the storage and the client hosts.
 
-NDAS chip. A single 4mmx4mm chip in 0.18um CMOS technology, which has the NDAS 
+NDAS chip. A single 4mmx4mm chip in 0.18um CMOS technology, which has the NDAS
 technology to allow direct attachment of existing ATA/ATAPI devices to Ethernet.
 
 NDAS device. Storage Hardware that has the NDAS chip.
 
 LICENSE
 
-Grant of License.  Subject to Customer's compliance with this Agreement, IOCELL 
-Networks grants to Customer, and Customer purchases, a nonexclusive License to 
+Grant of License.  Subject to Customer's compliance with this Agreement, IOCELL
+Networks grants to Customer, and Customer purchases, a nonexclusive License to
 use the Software for non-commercial use only for the device permitted by IOCELL
 Networks, and only for the platform or OS permitted by IOCELL Networks. Rights
-not expressly granted by this Agreement are reserved by IOCELL Networks. 
-Customer who wants to use the Software for commercial use must contact IOCELL 
-Networks to obtain the commercial License. Customer who wants to use the 
-Software for any other devices not permitted by IOCELL Networks must contact 
-IOCELL Networks to obtain the proper License. Customer who wants to use the 
-Software on any other platform or OS not permitted by IOCELL Networks must 
+not expressly granted by this Agreement are reserved by IOCELL Networks.
+Customer who wants to use the Software for commercial use must contact IOCELL
+Networks to obtain the commercial License. Customer who wants to use the
+Software for any other devices not permitted by IOCELL Networks must contact
+IOCELL Networks to obtain the proper License. Customer who wants to use the
+Software on any other platform or OS not permitted by IOCELL Networks must
 contact IOCELL Networks to obtain the proper License.
 
-Customer purchases a License only. IOCELL Networks retains title to and 
-ownership of the Software and Documentation and any copies thereof, including 
+Customer purchases a License only. IOCELL Networks retains title to and
+ownership of the Software and Documentation and any copies thereof, including
 the originals provided with this Agreement.
 
 Copies.  Customer may not copy the Software except as necessary to use the
@@ -76,24 +76,23 @@ copyright as well by other agreements on intellectual property.
 DISCLAIMER
 
 This software is provided 'as is' with no explicit or implied warranties
-in respect of any properties, including, but not limited to, correctness 
+in respect of any properties, including, but not limited to, correctness
 and fitness for purpose.
 
 GENERAL PROVISIONS
 
-Indemnification. Customer agrees that Customer shall defend and hold IOCELL 
-Networks harmless against any liability, claim, or suit and shall pay any 
-related expense, including but not limited to reasonable attorneys' fees, 
-arising out of any use of the Software or Content.  IOCELL Networks reserves 
-the right to control all litigation involving IOCELL Networks, Customer, and 
+Indemnification. Customer agrees that Customer shall defend and hold IOCELL
+Networks harmless against any liability, claim, or suit and shall pay any
+related expense, including but not limited to reasonable attorneys' fees,
+arising out of any use of the Software or Content.  IOCELL Networks reserves
+the right to control all litigation involving IOCELL Networks, Customer, and
 third parties.
 
 Entire Agreement.  This Agreement represents the entire agreement between
-IOCELL Networks and Customer. No distributor, employee, or other person is 
-authorized by IOCELL Networks to modify this Agreement or to make any warranty 
-or representation which is different than, or in addition to, the warranties 
+IOCELL Networks and Customer. No distributor, employee, or other person is
+authorized by IOCELL Networks to modify this Agreement or to make any warranty
+or representation which is different than, or in addition to, the warranties
 and representations of this Agreement.
 
 Governing Law. This Agreement shall be governed by the laws of the State of
 California and of the United States of America.
-
