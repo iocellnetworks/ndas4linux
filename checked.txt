@@ -2,6 +2,8 @@
 # cleanfile and checkpatch.pl
 # x means the directory is done.
 # | indicates it needs to be checked.
+
+
  | .
  |-arch
  |---cpu
