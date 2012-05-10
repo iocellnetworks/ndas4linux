@@ -123,7 +123,7 @@ struct req_iterator {
 #else
 #define SLOT_I(_inode_) SLOT((_inode_)->i_bdev->bd_disk)
 #endif
-#define SLOT_R(_request_) SLOT((_request_)->rq_disk)
+#define SLOT_R(_request_) (_request_->rq_disk->private_data)
 #define SLOT(_gendisk_) \
 ({ \
     struct gendisk *__g__ = _gendisk_;\
