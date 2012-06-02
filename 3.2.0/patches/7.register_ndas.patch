@@ -1,0 +1,72 @@
+--- platform/linux/tarball-tag/register_ndas	2012-05-31 17:51:38.000000000 +0000
++++ scripts/register_ndas	2012-05-31 22:00:07.000000000 +0000
+@@ -1,39 +1,46 @@
+ #!/bin/bash
++SYSLOG=/var/log/syslog
++NDASID1=9L5HC-J0SFA-7XNG6-A6X5X
++NDASWK1=RHN6A
++NDASNAME1=nd10
++NDASID2=3V1MX-PKQB6-50E36-Y03R4
++NDASWK2=XNH3K
++NDASNAME2=351une
+ 
+ echo "*************************************************  Clear Logs"
+-cat /dev/null > /var/log/messages
++cat /dev/null > $SYSLOG
+ 
+-echo " " >> /var/log/messages
+-echo " " >> /var/log/messages
+-echo "*************************************************  Register 500gig " >> /var/log/messages
+-ndasadmin register 9L5HC-J0SFA-7XNG6-A6X5X-RHN6A -n nd10
++echo " " >> $SYSLOG
++echo " " >> $SYSLOG
++echo "*************************************************  Register 500gig " >> $SYSLOG
++ndasadmin register $NDASID1-$NDASWK1 -n $NDASNAME1
+ sleep 5
+ 
+-echo " " >> /var/log/messages
+-echo " " >> /var/log/messages
+-echo "*************************************************  Register 351-1 " >> /var/log/messages
+-ndasadmin register 3V1MX-PKQB6-50E36-Y03R4-XNH3K -n 351-1
++echo " " >> $SYSLOG
++echo " " >> $SYSLOG
++echo "*************************************************  Register 351-1 " >> $SYSLOG
++ndasadmin register $NDASID2-$NDASWK2 -n $NDASNAME2
+ sleep 5
+ 
+-echo " " >> /var/log/messages
+-echo " " >> /var/log/messages
+-echo "*************************************************  List Device " >> /var/log/messages
++echo " " >> $SYSLOG
++echo " " >> $SYSLOG
++echo "*************************************************  List Device " >> $SYSLOG
+ cat /proc/ndas/devs
+ sleep 5
+ 
+-echo " " >> /var/log/messages
+-echo " " >> /var/log/messages
+-echo "*************************************************  Enable 500gig " >> /var/log/messages
++echo " " >> $SYSLOG
++echo " " >> $SYSLOG
++echo "*************************************************  Enable $NDASNAME " >> $SYSLOG
+ ndasadmin enable -s 1 -o w
+ sleep 5
+ 
+-echo " " >> /var/log/messages
+-echo " " >> /var/log/messages
+-echo "*************************************************  Enable 351-1 " >> /var/log/messages
++echo " " >> $SYSLOG
++echo " " >> $SYSLOG
++echo "*************************************************  Enable $NDASNAME2 " >> $SYSLOG
+ ndasadmin enable -s 2 -o w
+ sleep 5
+ 
+-echo " " >> /var/log/messages
+-echo " " >> /var/log/messages
+-echo "*************************************************  Copy Logs" >> /var/log/messages
+-cat /var/log/messages > lastlogs
+\ No newline at end of file
++echo " " >> $SYSLOG
++echo " " >> $SYSLOG
++echo "*************************************************  Copy Logs" >> $SYSLOG
++cat $SYSLOG > lastlogs

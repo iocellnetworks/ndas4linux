@@ -1,0 +1,42 @@
+--- platform/linux/tarball-tag/purgendas	2012-05-31 17:51:38.000000000 +0000
++++ scripts/purgendas	2012-05-31 22:00:01.000000000 +0000
+@@ -2,14 +2,20 @@
+ # purges all ndas installed things from the debian system
+ # use this if you need a fresh start after compiling 
+ 
+-echo disable 500gig
+-ndasadmin disable -s 1
++echo disable slot 1
++/usr/sbin/ndasadmin disable -s 1
++wait
++
+ echo 
+-echo disable 351-1
+-ndasadmin disable -s 2
++
++echo disable slot 2
++/usr/sbin/ndasadmin disable -s 2
++wait
++
+ echo
+ 
+-sh ndas stop
++sh /etc/init.d/ndas stop
++wait
+ #rmmod ndas_block
+ #rmmod ndas_core
+ #rmmod ndas_sal
+@@ -27,7 +33,6 @@ rm -rf /proc/ndas
+ 
+ rm -rf /sys/devices/virtual/ndas
+ rm -rf /sys/class/ndas
+-#rm -rf /sys/kernel/slab/ndas*
+ rm -rf /sys/module/ndas*
+ 
+ rm -rf /usr/lib/ndas
+@@ -42,4 +47,3 @@ rm -rf /var/lib/update-rc.d/ndas
+ rm -rf /var/lib/dpkg/info/ndas*
+ 
+ echo now do \"make clean\" to get ready for rebuilding.
+-echo " "
+\ No newline at end of file

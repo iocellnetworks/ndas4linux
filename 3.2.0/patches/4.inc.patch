@@ -1,0 +1,33 @@
+--- platform/linux/tarball-tag/inc/linux_ver.h	2012-05-31 17:51:38.000000000 +0000
++++ build_x86_linux/ndas-3.2-0/inc/linux_ver.h	2012-05-31 20:42:06.000000000 +0000
+@@ -243,7 +243,15 @@ typedef kmem_cache_t KMEM_CACHE;
+ #define QUEUE_IS_RUNNING(q) (!blk_queue_plugged(q))
+ #define GET_NEXT_QUEUE(q) elv_next_request(q)
+ 
+-#if ( LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31) )
++#if ( LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,39) )
++#define NBLK_NEXT_REQUEST(q)  (\
++    blk_peek_request(q))
++    //blk_queue_plugged is no more in 2.6.39. I hope it will
++    //simply send back mo request when this is called, thus
++    //skipping the function. see block/block26.c line 480.
++    //david 
++    
++#elif ( LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31) )
+ #define NBLK_NEXT_REQUEST(q) (\
+     blk_queue_plugged(q) ? NULL : \
+     blk_peek_request(q))
+@@ -253,7 +261,12 @@ typedef kmem_cache_t KMEM_CACHE;
+     elv_next_request(q))
+ #endif
+ 
+-#define BLK_CHECK_VALID_STATUS(req) blk_fs_request(req)
++#if ( LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,36) )
++	#define BLK_CHECK_VALID_STATUS(req) ( (req)->cmd_type == REQ_TYPE_FS )
++#else
++	#define BLK_CHECK_VALID_STATUS(req) blk_fs_request(req)
++#endif
++
+ #define BLK_ATTEMPT_WRITE_RDONLY_DEVICE(req) \
+     (NDAS_GET_SLOT_DEV(SLOT_R(req)) && \
+     !NDAS_GET_SLOT_DEV(SLOT_R(req))->info.writable && \

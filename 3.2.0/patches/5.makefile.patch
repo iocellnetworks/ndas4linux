@@ -1,0 +1,11 @@
+--- platform/linux/tarball-tag/Makefile	2012-05-31 17:51:38.000000000 +0000
++++ build_x86_linux/ndas-3.2-0/Makefile	2012-06-01 03:24:36.000000000 +0000
+@@ -414,7 +414,7 @@ FORCE:
+ endif # myself
+ endif # 2.6
+ 
+-include $(ndas_root)/ipkg/module.mk
++#include $(ndas_root)/ipkg/module.mk
+ 
+ $(ndas-ndasadmin-out): $(ndas-ndasadmin-obj)
+ 	$(ndas_cmd_app_ld) 	

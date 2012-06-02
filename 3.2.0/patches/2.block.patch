@@ -1,0 +1,69 @@
+diff -rupN platform/linux/tarball-tag/block/block26.c build_x86_linux/ndas-3.2-0/block/block26.c
+--- platform/linux/tarball-tag/block/block26.c	2012-05-31 17:51:38.000000000 +0000
++++ build_x86_linux/ndas-3.2-0/block/block26.c	2012-06-01 04:00:19.000000000 +0000
+@@ -401,4 +401,4 @@ int blk_cleanup(void)
+ 		nblk_kmem_cache = NULL;
+ 	}
+ 	return 0;
+-}
+\ No newline at end of file
++}
+diff -rupN platform/linux/tarball-tag/block/block.h build_x86_linux/ndas-3.2-0/block/block.h
+--- platform/linux/tarball-tag/block/block.h	2012-05-31 17:51:38.000000000 +0000
++++ build_x86_linux/ndas-3.2-0/block/block.h	2012-06-01 03:59:52.000000000 +0000
+@@ -86,7 +86,7 @@
+ #define SLOT_D(_disk_) SLOT((_disk_))
+ #define SLOT_B(_bdev_) SLOT((_bdev_)->bd_disk)
+ 
+-#define SLOT_R(_request_) SLOT((_request_)->rq_disk)
++#define SLOT_R(_request_) ((int) _request_->rq_disk->private_data)
+ #define SLOT(_gendisk_) \
+ ({ \
+     struct gendisk *__g__ = _gendisk_;\
+diff -rupN platform/linux/tarball-tag/block/ctrldev.c build_x86_linux/ndas-3.2-0/block/ctrldev.c
+--- platform/linux/tarball-tag/block/ctrldev.c	2012-05-31 17:51:38.000000000 +0000
++++ build_x86_linux/ndas-3.2-0/block/ctrldev.c	2012-06-01 04:06:45.000000000 +0000
+@@ -155,10 +155,9 @@ ndas_error_t slot_enable(int s)
+ 		&slot->lock
+ 	);
+ 
+-	blk_queue_max_phys_segments(slot->queue, ND_BLK_MAX_REQ_SEGMENT);
+-	blk_queue_max_hw_segments(slot->queue, ND_BLK_MAX_REQ_SEGMENT);
++	blk_queue_max_segments(slot->queue, ND_BLK_MAX_REQ_SEGMENT);
+ 	blk_queue_logical_block_size(slot->queue, slot->info.sector_size);
+-	blk_queue_max_sectors(slot->queue, DEFAULT_ND_MAX_SECTORS);
++	blk_queue_max_hw_sectors(slot->queue, DEFAULT_ND_MAX_SECTORS);
+ 
+ 	slot->disk = alloc_disk(NR_PARTITION);
+ 	if ( slot->disk == NULL ) {
+@@ -171,7 +170,7 @@ ndas_error_t slot_enable(int s)
+ 	slot->disk->first_minor = (s - NDAS_FIRST_SLOT_NR) << PARTN_BITS;
+ 	slot->disk->fops = &ndas_fops;
+ 	slot->disk->queue = slot->queue;
+-	slot->disk->private_data = &slot;
++	slot->disk->private_data = (void*) (long) s;
+ 	slot->queue_flags = 0;
+ 
+ 	dbgl_blk(1, "mode=%d", slot->info.mode);
+@@ -716,10 +715,10 @@ LOCAL inline ndas_error_t ndcmd_probe(ch
+ 	return ret;
+ }
+ 
+-int ndas_ctrldev_ioctl(struct inode *inode, struct file *filp, 
+-								unsigned int cmd, unsigned long arg)
++long ndas_ctrldev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ {
+ 	unsigned int        result = 0;
++	struct inode *inode = filp->f_dentry->d_inode;
+ 
+ 	dbgl_blk(3,"ing inode=%p, filp=%p, cmd=0x%x, arg=%p", inode, filp, cmd, 
+ 				(void*) arg);
+@@ -975,7 +974,7 @@ static struct file_operations ndasctrl_f
+ 	.read = ndas_ctrldev_read,
+ 	.open = ndas_ctrldev_open,
+ 	.release = ndas_ctrldev_release,
+-	.ioctl = ndas_ctrldev_ioctl, 
++	.unlocked_ioctl = ndas_ctrldev_ioctl, 
+ 	.owner =            THIS_MODULE
+ };
+ 
