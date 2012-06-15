@@ -43,7 +43,7 @@
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,10))
 MODULE_LICENSE("Dual BSD/GPL");
 #endif
-MODULE_AUTHOR("Ximeta, Inc.");
+MODULE_AUTHOR("IOCELL Networks Corp.");
 extern int ndas_ctrldev_init(void);
 extern int ndas_ctrldev_cleanup(void);
 extern int ndas_scsi_init(void);

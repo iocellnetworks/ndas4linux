@@ -125,7 +125,6 @@ static inline struct nbio_linux* nbio_alloc(struct request *req)
 		nbio->blocks[nbio->nr_blocks].len = bvec->bv_len;
 		nbio->nr_blocks++;
 #else
-#error Ur config-highmem is not defined.
 		char *data;
 		data = page_address(bvec->bv_page) + bvec->bv_offset;
 		/* NBIO_ADJACENT is buggy in case of a CONFIG_HIGHMEM

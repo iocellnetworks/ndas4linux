@@ -142,7 +142,6 @@ ndas-app-cflags+=-DDEBUG -g
 #only below while hunting for the bugs with the stack dump.
 ndas-kernel-cflags+=-DDEBUG -rdynamic
 
-#ndas-kernel-cflags+=-DDEBUG
 #
 # for 2.6.x kernel
 #
@@ -451,7 +450,7 @@ install-admin: $(ndas-ndasadmin-out)
 
 clean:
 	rm -rf $(ndas-ndasadmin-out) $(ndas-ndasadmin-obj) $(ndas-kernel-modules) $(ndas_root)/nd.ko $(ndas-sal-obj) $(ndas-block-obj) $(ndas-scsi-obj) $(ndas_root)/ndas.o
-	find . \( -name 'ndas_*.o' -o -name '*.ko' -o -name '.*.cmd' -o -name '.*.d' -o -name '*.mod.c' -o -name '*.mod.o' -o -name '*.symvers' \) -type f -print | xargs rm -f
+	find . \( -name 'ndas_*.o' -o -name '*.ko' -o -name '.*.cmd' -o -name '.*.d' -o -name '*.mod.c' -o -name '*.mod.o' -o -name '*.symvers' -o -name '*~' \) -type f -print | xargs rm -f
 	rm -rf '.tmp_versions'
 	rm -rf '.kernel.mk'
 

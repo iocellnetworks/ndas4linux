@@ -1,7 +1,7 @@
 Source: ndas
 Section: non-free/admin
 Priority: optional
-Maintainer: Ximeta, Inc.
+Maintainer: IOCELL Networks Corp.
 Build-Depends: debhelper (>= 5)
 Standards-Version: 3.7.2
 
