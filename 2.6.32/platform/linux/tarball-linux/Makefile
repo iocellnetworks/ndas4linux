@@ -282,7 +282,7 @@ emu-single:  $(emu-single-modules)
 blk-single:  $(blk-single-modules) ndas-admin
 
 module_compile: FORCE
-	@echo Invoking make againt the kernel at $(NDAS_KERNEL_PATH) $(NDAS_KERNEL_VERSION)
+	@echo Invoking make against the kernel at $(NDAS_KERNEL_PATH) $(NDAS_KERNEL_VERSION)
 	$(MAKE) -C $(NDAS_KERNEL_PATH) 	\
 			SUBDIRS=$(ndas_root) 	\
 			KBUILD_VERBOSE=1 		\
@@ -290,7 +290,7 @@ module_compile: FORCE
 			modules
 
 $(emu-single-modules): FORCE
-	@echo Invoking make againt the kernel at $(NDAS_KERNEL_PATH)
+	@echo Invoking make against the kernel at $(NDAS_KERNEL_PATH)
 	$(MAKE) -C $(NDAS_KERNEL_PATH) 	\
 			SUBDIRS=$(ndas_root) 	\
 			KBUILD_VERBOSE=1 		\
@@ -299,7 +299,7 @@ $(emu-single-modules): FORCE
 			modules
 
 $(blk-single-modules): FORCE
-	@echo Invoking make againt the kernel at $(NDAS_KERNEL_PATH)
+	@echo Invoking make against the kernel at $(NDAS_KERNEL_PATH)
 	$(MAKE) -C $(NDAS_KERNEL_PATH) 	\
 			SUBDIRS=$(ndas_root) 	\
 			KBUILD_VERBOSE=1 		\
