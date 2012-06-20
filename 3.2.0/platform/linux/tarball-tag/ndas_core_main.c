@@ -20,14 +20,15 @@ the Software is licensed.
 LICENSE
 
 Grant of License.  Subject to Customer's compliance with this Agreement,
-IOCELL Networks grants to Customer, and Customer purchases, a nonexclusive License to
-use the Software for non-commercial use only.  Rights not expressly granted by
-this Agreement are reserved by IOCELL Networks.  Customer who wants to use the Software
-for commercial use must contact IOCELL Networks to obtain the commercial License.
+IOCELL Networks grants to Customer, and Customer purchases, a nonexclusive 
+License to use the Software for non-commercial use only.  Rights not expressly
+granted by this Agreement are reserved by IOCELL Networks.  Customer who wants
+to use the Software for commercial use must contact IOCELL Networks to obtain
+the commercial License.
 
-Customer purchases a License only. IOCELL Networks retains title to and ownership of
-the Software and Documentation and any copies thereof, including the originals
-provided with this Agreement.
+Customer purchases a License only. IOCELL Networks retains title to and
+ownership of the Software and Documentation and any copies thereof, including 
+the originals provided with this Agreement.
 
 Copies.  Customer may not copy the Software except as necessary to use the
 Software.  Such necessary use includes copying the Software to the internal
@@ -62,17 +63,18 @@ and fitness for purpose.
 
 GENERAL PROVISIONS
 
-Indemnification.  Customer agrees that Customer shall defend and hold IOCELL Networks
-harmless against any liability, claim, or suit and shall pay any related
-expense, including but not limited to reasonable attorneys' fees, arising out
-of any use of the Software or Content.  IOCELL Networks reserves the right to control
-all litigation involving IOCELL Networks, Customer, and third parties.
+Indemnification.  Customer agrees that Customer shall defend and hold IOCELL 
+Networks harmless against any liability, claim, or suit and shall pay any 
+related expense, including but not limited to reasonable attorneys' fees, 
+arising out of any use of the Software or Content.  IOCELL Networks reserves 
+the right to control all litigation involving IOCELL Networks, Customer, and 
+third parties.
 
 Entire Agreement.  This Agreement represents the entire agreement between
-IOCELL Networks and Customer. No distributor, employee, or other person is authorized
-by IOCELL Networks to modify this Agreement or to make any warranty or representation
-which is different than, or in addition to, the warranties and representations
-of this Agreement.
+IOCELL Networks and Customer. No distributor, employee, or other person is
+authorized by IOCELL Networks to modify this Agreement or to make any warranty
+or representation which is different than, or in addition to, the warranties
+and representations of this Agreement.
 
 Governing Law.  This Agreement shall be governed by the laws of the State of
 California and of the United States of America.
@@ -105,7 +107,7 @@ California and of the United States of America.
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,10))
 MODULE_LICENSE("Proprietary, Send bug reports to linux@iocellnetworks.com");
 #endif
-MODULE_AUTHOR("Ximeta, Inc.");
+MODULE_AUTHOR("IOCELL Networks Corp.");
 
 #ifndef NDAS_IO_UNIT
 #define NDAS_IO_UNIT 64 // KB

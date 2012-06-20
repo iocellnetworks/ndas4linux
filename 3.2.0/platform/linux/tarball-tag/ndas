@@ -3,7 +3,6 @@
 # Copyright ( C ) 2012 IOCELL Networks
 #
 # Debian LSB information 
-# ref: http://linux.ximeta.com:8000/trac/ticket/1147
 #
 ### BEGIN INIT INFO
 # Provides:          ndas
@@ -11,7 +10,7 @@
 # Required-Stop:     $all
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Network Direct Attached Storage by Ximeta
+# Short-Description: Network Direct Attached Storage by IOCELL Networks
 # Description:       Load modules and enable the ndas service ndasdmin tasks.
 ### END INIT INFO
 
@@ -96,13 +95,31 @@ find_reason_fail() {
 # Display the guide to report bug 
 #
 display_guide_to_report_bug() {
-    echo " Report this problem with the following messages at http://ndas4linux.iocellnetworks.com/cgi-bin/trac.cgi/newticket";
+	 echo "Report this problem with the following messages at"; 
+	 echo "  http://ndas4linux.iocellnetworks.com/";
     echo "==============================================================================";
+    echo cat /proc/version;
     cat /proc/version;
+    echo Existing modules:
     ls -l /lib/modules/*/kernel/drivers/block/ndas/*;
+    echo Compiler version:
     gcc --version;
+    echo Modules installed:
     /sbin/lsmod | grep ndas
-    tail -n20 /var/log/messages
+   # discover the systlog file
+	echo Syslog:
+	if [ -f /var/log/messages ]; then
+		echo tail /var/log/messages;
+		tail -n20 /var/log/messages;
+	elif [ -f /var/log/syslog ] ; then
+		echo tail /var/log/syslog;
+		tail -n20 /var/log/syslog;
+	elif [ -f /var/log/kern.log ]; then
+		echo tail /var/log/kern.log;
+		tail -n20 /var/log/kern.log; 
+	else 
+		echo "Non standard log in use.";
+	fi
     echo "==============================================================================";
     return 0;
 }

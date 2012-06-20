@@ -1,5 +1,6 @@
 #!/bin/bash
-SYSLOG=/var/log/syslog
+
+# set the devices below for your testing
 NDASID1=9L5HC-J0SFA-7XNG6-A6X5X
 NDASWK1=RHN6A
 NDASNAME1=nd10
@@ -7,7 +8,36 @@ NDASID2=3V1MX-PKQB6-50E36-Y03R4
 NDASWK2=XNH3K
 NDASNAME2=351une
 
-echo "*************************************************  Clear Logs"
+
+#find out if we are root access.
+if  ! [ $(id -u) = 0 ]; then
+   echo 
+   echo "This script must be run as root or with sudo." 
+   echo
+   exit 1
+fi
+
+# detect the syslog file:
+SYSLOG=
+if [ -f /var/log/messages ]; then
+	SYSLOG=/var/log/messages;
+elif [ -f /var/log/syslog ] ; then
+	SYSLOG=/var/log/syslog;
+elif [ -f /var/log/kern.log ]; then
+	SYSLOG=/var/log/kern.log; 
+else 
+	echo "Create temporary log file."
+	touch /var/log/messages
+	if [ -f /var/log/messages ]; then 
+		echo "OK. Temp /var/log/messages created.";
+		SYSLOG=/var/log/messages;
+	else 
+		echo "Failed to find/create a log file. Exiting now";
+		exit 1
+	fi
+fi
+
+echo "*************************************************  Clear $SYSLOG"
 cat /dev/null > $SYSLOG
 
 echo " " >> $SYSLOG
@@ -28,17 +58,30 @@ echo "*************************************************  List Device " >> $SYSLO
 cat /proc/ndas/devs
 sleep 5
 
-echo " " >> $SYSLOG
-echo " " >> $SYSLOG
-echo "*************************************************  Enable $NDASNAME " >> $SYSLOG
-ndasadmin enable -s 1 -o w
-sleep 5
-
-echo " " >> $SYSLOG
-echo " " >> $SYSLOG
-echo "*************************************************  Enable $NDASNAME2 " >> $SYSLOG
-ndasadmin enable -s 2 -o w
-sleep 5
+# find enabled slots and enable
+if [ -d /proc/ndas/slots ]; then
+	for line in `ls /proc/ndas/slots | xargs -0`
+	do 
+		# That query above produced a blank line at the end.
+		# There is no slot 0 so we can test it and show only the real slots.
+		if [ "$line" > "0"  ]; 	then  
+			# check if the slot is enabled
+			# The slot/info file shows basic device status and location
+			grep Enabled /proc/ndas/slots/$line/info  1>&2 > /dev/null
+			if [ $(echo $?) -eq 0 ]; then
+				echo Slot $line is already enabled
+			else 
+				# try to enable the slot
+				echo " " >> $SYSLOG
+				echo " " >> $SYSLOG
+				echo -n "*************************************************  Enable $NDASNAME " >> $SYSLOG
+				ndasadmin enable -s $line -o w
+				sleep 5
+			fi
+		fi
+		echo  
+	done
+fi 
 
 echo " " >> $SYSLOG
 echo " " >> $SYSLOG

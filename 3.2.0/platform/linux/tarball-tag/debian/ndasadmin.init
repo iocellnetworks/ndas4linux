@@ -9,6 +9,17 @@
 #
 # Version:	@(#)skeleton  1.9  26-Feb-2001  miquels@cistron.nl
 #
+# Debian LSB information 
+#
+### BEGIN INIT INFO
+# Provides:          ndas
+# Required-Start:    $network $syslog
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Network Direct Attached Storage by IOCELL Networks
+# Description:       Load modules and enable the ndas service ndasdmin tasks.
+### END INIT INFO
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/share/ndas/ndas

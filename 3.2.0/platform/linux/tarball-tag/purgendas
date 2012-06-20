@@ -2,48 +2,87 @@
 # purges all ndas installed things from the debian system
 # use this if you need a fresh start after compiling 
 
-echo disable slot 1
-/usr/sbin/ndasadmin disable -s 1
-wait
+#find out if we are root access.
+if  ! [ $(id -u) = 0 ]; then
+   echo 
+   echo "This script must be run as root or with sudo." 
+   echo
+   exit 1
+fi
 
-echo 
+# find enabled slots and disable
+if [ -d /proc/ndas/slots ]; then
+	for line in `ls /proc/ndas/slots | xargs -0`
+	do 
+		# That query above produced a blank line at the end.
+		# There is no slot 0 so we can test it and show only the real slots.
+		if [ "$line" > "0"  ]; 	then  
+			# check if the slot is enabled
+			# The slot/info file shows basic device status and location
+			grep Enabled /proc/ndas/slots/$line/info  1>&2 > /dev/null
+			if [ $(echo $?) -eq 0 ]; then
+				echo disable slot $line
+				/usr/sbin/ndasadmin disable -s $line
+				if [ $(echo $?) -ne 0 ]; then
+					echo "Exiting due to script error: $?"
+					exit 1
+				fi
+			fi
+		fi
+		echo  
+	done
+fi 
 
-echo disable slot 2
-/usr/sbin/ndasadmin disable -s 2
-wait
+# stop ndas if necessary
+lsmod | grep ndas   1>&2 > /dev/null
+if [ $(echo $?) -eq 0  ]; then
+	/etc/init.d/ndas stop
+	wait
+	lsmod | grep ndas   1>&2 > /dev/null
+	if [ $(echo $?) -eq 0  ]; then
+		echo "NDAS Service could not be stopped. "
+		exit 1
+	fi
+else 
+	echo "no ndas modules loaded."
+fi 
 
-echo
+# remove what we can of the normal install files
+# stop ndas if necessary 
 
-sh /etc/init.d/ndas stop
-wait
-#rmmod ndas_block
-#rmmod ndas_core
-#rmmod ndas_sal
-
-rm -rf /dev/ndas
-rm -rf /dev/.udev/db/ndas:ndas
-
-rm /etc/init.d/ndas /etc/rc?.d/[SK]??ndas
-
-rm -rf /lib/modules/*/kernel/drivers/block/ndas
-
-rm /etc/ndas.conf
-
-rm -rf /proc/ndas
-
-rm -rf /sys/devices/virtual/ndas
-rm -rf /sys/class/ndas
-rm -rf /sys/module/ndas*
-
-rm -rf /usr/lib/ndas
-rm -rf /usr/sbin/ndasadmin
-rm -rf /usr/share/ndas*
-rm -rf /usr/share/doc/ndas*
-rm -rf /usr/src/modules/ndas
-rm -rf /usr/src/ndas*
-
-rm -rf /var/cache/modass/ndas-*
-rm -rf /var/lib/update-rc.d/ndas
-rm -rf /var/lib/dpkg/info/ndas*
-
-echo now do \"make clean\" to get ready for rebuilding.
+lsmod | grep ndas   1>&2 > /dev/null
+if [ $(echo $?) -ne 0  ]; then
+	rm -rf /dev/ndas
+	rm -rf /dev/.udev/db/ndas:ndas
+	rm /etc/init.d/ndas /etc/rc?.d/[SK]??ndas
+	rm -rf /lib/modules/*/kernel/drivers/block/ndas
+	
+	rm /etc/ndas.conf
+	
+	rm -rf /proc/ndas
+	
+	rm -rf /sys/devices/virtual/ndas
+	rm -rf /sys/class/ndas
+	rm -rf /sys/module/ndas*
+	
+	rm -rf /usr/lib/ndas
+	rm -rf /usr/sbin/ndasadmin
+	rm -rf /usr/share/ndas*
+	rm -rf /usr/share/doc/ndas*
+	rm -rf /usr/src/modules/ndas
+	rm -rf /usr/src/ndas*
+	
+	rm -rf /var/cache/modass/ndas-*
+	rm -rf /var/lib/update-rc.d/ndas
+	rm -rf /var/lib/dpkg/info/ndas*
+	if [ -d netdisk/ ]; then 
+		echo "From here you can do "
+		echo "  \"make linux-clean\" or "
+		echo "  \"make linux64-clean\" "
+		echo "to get ready for rebuilding."
+	else
+		echo "now do \"make clean\" to get ready for rebuilding."
+	fi
+else
+	echo "ndas modules are still loaded. try to stop the ndas service." 
+fi 

@@ -65,7 +65,7 @@ kdist_clean:
 	rm -f build-stamp configure-stamp
 #	-$(MAKE) $(MFLAGS) -f debian/rules clean
 	-$(MAKE) clean
-	-dh_clean
+	-dh_prep
 #	rm -f driver/*.o driver/*.ko
 #
 ### end  KERNEL SETUP
@@ -94,7 +94,7 @@ k = $(shell echo $(KVERS) | grep -q ^2.6 && echo k)
 # during a normal build
 binary-modules: kdist_configure
 	dh_testroot
-	dh_clean -k
+	dh_prep 
 	dh_installdirs lib/modules/$(KVERS)/kernel/drivers/block/ndas
 
 	# Build the module
@@ -120,7 +120,7 @@ binary-modules: kdist_configure
 	dh_gencontrol -- -v$(VERSION)
 	dh_md5sums
 	dh_builddeb --destdir=$(DEB_DESTDIR)
-	dh_clean -k
+	dh_prep
 
 build-indep:  configure-stamp build-indep-stamp
 build-indep-stamp:
@@ -143,7 +143,7 @@ clean:
 	# Add here commands to clean up after the build process.
 	-$(MAKE) clean
 
-	dh_clean
+	dh_prep
 
 libndas: 
 	# If libndas does not exist, create one removing license aggrement.
@@ -155,7 +155,7 @@ install: DH_OPTIONS=
 install: build libndas
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 	dh_installdirs usr/share/ndas
 
