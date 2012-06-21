@@ -1,0 +1,225 @@
+#! /bin/bash
+#
+# Copyright ( C ) 2012 IOCELL Networks
+#
+# Debian LSB information 
+#
+### BEGIN INIT INFO
+# Provides:          ndas
+# Required-Start:    $network $syslog
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Network Direct Attached Storage by IOCELL Networks
+# Description:       Load modules and enable the ndas service ndasdmin tasks.
+### END INIT INFO
+
+# 
+# RedHat configuration
+# chkconfig: 2345 13 73
+# description: NDAS device driver
+#
+# Print the versions of kernels, the NDAS drivers support.
+_sep_=':'
+_variants_="smp hugemem kdump xen0 xenU PAE"
+#
+# $1 : kernel variant (smp, bigsmp, hugemem xen0 xenU kdump PAE, or nothing)
+supported_kernel_versions() {
+    _variant_=$1;
+    _kernel_version_postfix_="";
+    if [ -n "${_variant_}" ] ; then 
+        _variant_=-$1;
+        _kernel_version_postfix_=-$1;
+        if [ ! -f /etc/debian_version ] ; then
+            _kernel_version_postfix_=$1;
+        fi
+    fi
+    rpm -q --queryformat "[%{REQUIRENAME}${_sep_}%{REQUIREVERSION}${_kernel_version_postfix_}${_sep_}%{=ARCH}\\n]" \
+        ndas-kernel${_variant_}  2> /dev/null | \
+        grep "^kernel${_variant_}" | cut -d"${_sep_}" -f2-3;
+    return 0;
+}
+# smp: redhat, fc, el, mandrake, debian/ubuntu
+# hugemem : el4
+# kdump : fc5
+# xen0, xenU : fc4, fc5
+# PAE : fc6
+get_kernel_variant() {
+    _version_=`uname -r`;
+    for s in $_variants_;
+    do
+        if [ "${_version_/$s}" != "${_version_}" ] ; then
+            echo $s;
+            return 0;
+        fi
+    done
+    echo "";
+    return 0;
+}
+supports_current_kernel() {
+    _current_variant_=`get_kernel_variant`; 
+    _kernels=`supported_kernel_versions $_current_variant_`;
+    _current_kernel="`uname -r`${_sep_}`uname -m`";
+    for s in $_kernels;
+    do
+        if [ "$s" = "$_current_kernel" ]; then return 0; fi
+    done
+    return 1;
+}
+# Find if redhat based distros
+redhat_based_distros() {
+    if [ -f /etc/redhat-release -o -f /etc/fedora-release -o -f /etc/mandrake-release -o -f /etc/mandriva-release -o -f /etc/mandrakelinux-release ] ; then 
+        return 0;
+    fi
+    return 1;
+}
+# Find the reason fail to start
+find_reason_fail() {
+    redhat_based_distros ;
+    if [ $? -ne 0 ] ; then return 1; fi
+    supports_current_kernel ;
+    if [ $? -ne 0 ] ; then 
+        echo "You have the NDAS driver(s) for";
+        supported_kernel_versions | sed -e "s|${_sep_}| |g";
+        for s in $_variants_;
+        do
+            supported_kernel_versions $s| sed -e "s|${_sep_}| |g";
+        done
+        echo "But don't have the NDAS driver for current kernel `uname -r` `uname -m`"
+        echo "Please install the NDAS driver for current kernel, or build the customized NDAS driver from the NDAS tarball source";
+        return 0; # found the reason
+    fi
+    return 1; # can not found why fail
+}
+#
+# Display the guide to report bug 
+#
+display_guide_to_report_bug() {
+	 echo "Report this problem with the following messages at"; 
+	 echo "  http://ndas4linux.iocellnetworks.com/";
+    echo "==============================================================================";
+    echo cat /proc/version;
+    cat /proc/version;
+    echo Existing modules:
+    ls -l /lib/modules/*/kernel/drivers/block/ndas/*;
+    echo Compiler version:
+    gcc --version;
+    echo Modules installed:
+    /sbin/lsmod | grep ndas
+   # discover the systlog file
+	echo Syslog:
+	if [ -f /var/log/messages ]; then
+		echo tail /var/log/messages;
+		tail -n20 /var/log/messages;
+	elif [ -f /var/log/syslog ] ; then
+		echo tail /var/log/syslog;
+		tail -n20 /var/log/syslog;
+	elif [ -f /var/log/kern.log ]; then
+		echo tail /var/log/kern.log;
+		tail -n20 /var/log/kern.log; 
+	else 
+		echo "Non standard log in use.";
+	fi
+    echo "==============================================================================";
+    return 0;
+}
+BASEDIR=/usr
+
+PATH="$BASEDIR/sbin:$BASEDIR/bin:/sbin:/bin:/usr/sbin:/usr/bin:$PATH"
+export PATH
+
+test -d $BASEDIR || exit 0
+
+case $1 in
+ start)
+    # start
+    # Fedora driver depends on llc, p8022, psnap
+    if [ -f /etc/fedora-release ]; then
+        modprobe llc > /dev/null 2>&1
+        modprobe p8022 > /dev/null 2>&1
+        modprobe psnap > /dev/null 2>&1
+    fi
+    echo -n "Starting NDAS:"
+    
+    ( grep -c ndas_ /lib/modules/`uname -r`/modules.dep || depmod )> /dev/null 2>&1
+    modprobe ndas_sal
+    if [ $? -ne 0 ] ; then
+        echo " failed to load sal module" ; 
+        if find_reason_fail; then
+            exit 0;
+        fi
+        display_guide_to_report_bug;
+        exit 1;
+    fi
+    modprobe ndas_core
+    if [ $? -ne 0 ] ; then
+        echo " failed to load core module" ; 
+        rmmod ndas_sal > /dev/null 2>&1;
+        display_guide_to_report_bug;
+        exit 1;
+    fi
+    modprobe ndas_block
+    if [ $? -ne 0 ] ; then
+        echo " failed to load block module" ; 
+        display_guide_to_report_bug;
+        rmmod ndas_core > /dev/null 2>&1;
+        rmmod ndas_sal > /dev/null 2>&1;
+        exit 1;
+    fi
+
+    echo -n " modules inserted. "
+
+    if [ ! -e /dev/ndas ]; then
+        /usr/share/ndas/mknod.sh > /dev/null 2>&1
+        echo -n " node created. "
+    fi
+
+    /usr/sbin/ndasadmin start
+    if [ $? -ne 0 ] ; then
+        echo " failed to start ndas service" ; 
+        display_guide_to_report_bug;
+        rmmod ndas_block > /dev/null 2>&1
+        rmmod ndas_core > /dev/null 2>&1
+        rmmod ndas_sal > /dev/null 2>&1
+        exit 1;
+    fi
+    echo " started"
+
+    ;;
+ stop)
+    echo -n "Stopping NDAS:"
+
+    sync;sync
+    echo -n " synced"
+
+    # unmount all filesystems on netdisk devices
+    for s in `grep ^/dev/nd /etc/mtab| cut -d' ' -f1`
+    do
+        umount -f $s > /dev/null 2>&1
+    done
+    echo -n " umounted"
+
+    sync;sync
+    echo -n " synced"
+
+    /usr/sbin/ndasadmin stop > /dev/null 2>&1
+    echo -n " stopped"
+    sleep 3
+
+    rmmod ndas_block > /dev/null 2>&1
+    rmmod ndas_core > /dev/null 2>&1
+    rmmod ndas_sal > /dev/null 2>&1
+
+    echo " modules removed"
+    ;;
+ restart)
+        $0 stop
+        $0 start
+        ;;
+ *)
+        echo "Unknown request $1"
+        echo "usage: $0 [start|stop]"
+        ;;
+esac
+
+exit 0

@@ -1,0 +1,13 @@
+How to port the xplat into a platform
+1. create/modify arch/cpu/[your cpu].mk file
+2. create/modify arch/os/[your cpu].mk file
+3. (optional) create/modify arch/vendor/[your cpu].mk file
+4. create platform specific files
+  create directory platform/[your os]/
+  create directory platform/[your os]/module.mk
+	create a rule to how to update $(nxp-build)/platform/[your os]/.done
+		which is supposed to update after everything is done
+		(don't care about sal/*.c)
+  create directory platform/[your os]/sal/module.mk
+  create directory platform/[your os]/sal/{thread,sync,...}.c
+	specify nxp-sal-obj $(nxp-build)/platform/[your os]/sal/*.o

@@ -1,0 +1,46 @@
+diff -rupN platform/linux/tarball-tag/scsi/ctrldev.c build_x86_linux/ndas-3.2-0/scsi/ctrldev.c
+--- platform/linux/tarball-tag/scsi/ctrldev.c	2012-05-31 17:51:38.000000000 +0000
++++ build_x86_linux/ndas-3.2-0/scsi/ctrldev.c	2012-05-31 21:34:57.000000000 +0000
+@@ -709,10 +709,10 @@ LOCAL inline ndas_error_t ndcmd_probe(ch
+     return ret;
+ }
+ 
+-int ndas_ctrldev_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg)
++long ndas_ctrldev_ioctl( struct file *filp, unsigned int cmd, unsigned long arg )
+ {
+     unsigned int        result = 0;
+-
++	struct inode *inode = filp->f_dentry->d_inode;
+     dbgl_ctrfs(3,"ing inode=%p, filp=%p, cmd=0x%x, arg=%p", inode, filp, cmd, (void*) arg);
+ 
+     if(!capable(CAP_SYS_ADMIN))
+@@ -965,7 +965,7 @@ static struct file_operations ndasctrl_f
+ 	.read = ndas_ctrldev_read,
+ 	.open = ndas_ctrldev_open,
+ 	.release = ndas_ctrldev_release,
+-	.ioctl = ndas_ctrldev_ioctl, 
++	.unlocked_ioctl = ndas_ctrldev_ioctl, 
+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,10))
+     .owner =            THIS_MODULE
+ #endif
+diff -rupN platform/linux/tarball-tag/scsi/ndas_scsi.c build_x86_linux/ndas-3.2-0/scsi/ndas_scsi.c
+--- platform/linux/tarball-tag/scsi/ndas_scsi.c	2012-05-31 17:51:38.000000000 +0000
++++ build_x86_linux/ndas-3.2-0/scsi/ndas_scsi.c	2012-05-31 21:57:36.000000000 +0000
+@@ -579,7 +579,7 @@ static void ndas_scsi_real_end_io(int sl
+ }
+ 
+ 
+-static int ndas_scsi_queuecommand(struct scsi_cmnd * SCpnt, void (*done)(struct scsi_cmnd *))
++static int ndas_scsi_queuecommand_lck(struct scsi_cmnd * SCpnt, void (*done)(struct scsi_cmnd *))
+ {
+ 
+ 	struct ndas_slot * ndas_dev = NULL;
+@@ -705,7 +705,7 @@ static int ndas_scsi_queuecommand(struct
+ #endif
+ 	return 0;
+ }
+-
++static DEF_SCSI_QCMD(ndas_scsi_queuecommand)
+ 
+ static int ndas_scsi_abort(struct scsi_cmnd * SCpnt)
+ {

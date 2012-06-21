@@ -1,0 +1,139 @@
+diff -rupN platform/linux/tarball-tag/sal/io.c build_x86_linux/ndas-3.2-0/sal/io.c
+--- platform/linux/tarball-tag/sal/io.c	2012-05-31 17:51:38.000000000 +0000
++++ build_x86_linux/ndas-3.2-0/sal/io.c	2012-05-31 21:31:04.000000000 +0000
+@@ -41,7 +41,8 @@
+ #include <linux/fs.h>
+ #include <asm/uaccess.h>
+ #include <linux/ide.h>
+-#include <linux/smp_lock.h>
++#include <linux/mutex.h>
++
+ #include <linux/time.h>
+ 
+ #include "sal/sync.h"
+@@ -54,6 +55,8 @@
+ 
+ #include "linux_ver.h" // SAL_HZ
+ 
++DEFINE_MUTEX(fs_mutex);
++
+ NDAS_SAL_API sal_file sal_file_open(const char * filename, int flags, int mode)
+ {
+ 	int linux_flags = 0;
+@@ -95,7 +98,7 @@ NDAS_SAL_API xbool     sal_file_get_size
+ 	int size32;
+ #endif
+ 
+-	lock_kernel();
++	mutex_lock(&fs_mutex);
+ 
+         if (filp->f_dentry &&
+ 		filp->f_dentry->d_inode &&
+@@ -104,61 +107,24 @@ NDAS_SAL_API xbool     sal_file_get_size
+             ret = TRUE;
+             *size = filp->f_dentry->d_inode->i_size;
+         } else if (filp->f_op) {
+-#ifdef HAVE_UNLOCKED_IOCTL
+-		/* Newer kernel don't have ioctl. Use unlocked_ioctl instead */
+-		if (filp->f_op->unlocked_ioctl) {	
+-            /*
+-                On x86 platforms Linux uses FS register to keep the data segment
+-                register with which access user segment register. If a sys_call is made
+-                and the kernel needs to copy data from user space then FS will have the
+-                value USER_DS. Many kernel functions copy or return data from/to user
+-                space. In order to use the same functions to copy/return data "from/to
+-                kernel space" you need to do the followings:
+-                mm_segment_t* old_fs;
+-                old_fs = get_fs();
+-                set_fs(KERNEL_DS);
+-                // call the kernel functions
+-                set_fs(old_fs); 
+-            */
+-			oldfs = get_fs();
+-			set_fs(get_ds());
+-			error = filp->f_op->unlocked_ioctl(filp, BLKGETSIZE64, (unsigned long)size);
+-			smp_mb();
+-			set_fs(oldfs);
+-			if (error) {
+-				ret = FALSE;
+-				printk("SAL: unlocked_ioctl error=%d\n", error);
+-			}
+-			else {
+-/*				printk("SAL: Block size = %lld(unlocked_ioctl)\n", *size);*/
+-				ret = TRUE;
+-			}
+-		} else 
+-#endif
+-		if (filp->f_op->ioctl) {
+-			oldfs = get_fs();
+-			set_fs(get_ds());
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,10))
+-			error = filp->f_op->ioctl(filp->f_dentry->d_inode, filp, BLKGETSIZE64, (unsigned long)size);
+-#else
+-			error = filp->f_op->ioctl(filp->f_dentry->d_inode, filp, BLKGETSIZE, (int)&size32);
+-			*size = size32<<9;
+-#endif
+-/*			printk("SAL: Block size = %lld\n", *size);*/
+-			smp_mb();
+-			set_fs(oldfs);
+-			if (error) {
+-				ret = FALSE;
+-				printk("SAL: ioctl error=%d\n", error);
+-			}
+-			else {
+-				ret = TRUE;
+-			}
+-		} 
++		oldfs = get_fs();
++		set_fs(get_ds());
++		error = filp->f_op->unlocked_ioctl(filp, BLKGETSIZE64, (unsigned long)size);
++		smp_mb();
++		set_fs(oldfs);
++		if (error) {
++			ret = FALSE;
++			printk("SAL: unlocked_ioctl error=%d\n", error);
++		}
++		else {
++		/* printk("SAL: Block size = %lld(unlocked_ioctl)\n", *size); */
++			ret = TRUE;
++		}
++		
+ 	} else {
+ 		ret = FALSE;
+ 	}
+-	unlock_kernel();
++	mutex_unlock(&fs_mutex);
+ 	return ret;
+ }
+ 
+@@ -168,12 +134,8 @@ NDAS_SAL_API void     sal_file_close(sal
+ {
+ 	struct file* filp = (struct file*) file;
+ 	if (filp->f_op && filp->f_op->fsync) {
+-/* 		printk("SAL: Syncing..\n"); */
+-		#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,34))
+-		filp->f_op->fsync(filp, filp->f_dentry, 0);
+-		#else
+-		filp->f_op->fsync(filp, 0);
+-		#endif
++		/* printk("SAL: Syncing..\n"); */
++		filp->f_op->fsync(filp, 0, LLONG_MAX, 0);
+ 	}
+ 	filp_close(filp, NULL);
+ }
+diff -rupN platform/linux/tarball-tag/sal/net.c build_x86_linux/ndas-3.2-0/sal/net.c
+--- platform/linux/tarball-tag/sal/net.c	2012-05-31 17:51:38.000000000 +0000
++++ build_x86_linux/ndas-3.2-0/sal/net.c	2012-05-31 21:52:53.000000000 +0000
+@@ -358,11 +358,7 @@ sal_sock_destruct(struct sock *sk)
+     dbgl_salnet(4, "%p",sk);
+ }
+ 
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24))
+-static int    _sock_create(struct net *net, struct socket *sock, int protocol) 
+-#else
+-static int    _sock_create(struct socket *sock, int protocol) 
+-#endif
++static int _sock_create(struct net *net, struct socket *sock, int protocol, int kern) 
+ {
+     struct sock* sk;
+ 

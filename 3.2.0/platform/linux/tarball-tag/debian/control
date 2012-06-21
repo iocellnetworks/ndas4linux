@@ -1,0 +1,22 @@
+Source: ndas
+Section: non-free/admin
+Priority: optional
+Maintainer: IOCELL Networks
+Build-Depends: debhelper (>= 5), bzip2, linux-headers
+Standards-Version: 3.7.2
+
+Package: ndasadmin
+Architecture: any
+Depends: ndas-modules, ${shlibs:Depends}
+Description: NDAS administration software
+ ndasadmin allows users to register/enable/disable/unregister 
+ NDAS devices.
+
+Package: ndas-modules-src
+Architecture: all
+Depends: debhelper (>= 5), make, bzip2
+Description: Kernel module source and NDAS core library for the NDAS device.
+ This package provides the NDAS core library and source code for the NDAS 
+ kernel modules.
+ The ndas-admin package is also required in order to make use of these
+ modules. Kernel source or headers are required to compile these modules.

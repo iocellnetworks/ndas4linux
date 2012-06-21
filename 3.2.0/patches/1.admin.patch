@@ -1,0 +1,12 @@
+diff -rupN platform/linux/tarball-tag/admin/ndasadmin.c build_x86_linux/ndas-3.2-0/admin/ndasadmin.c
+--- platform/linux/tarball-tag/admin/ndasadmin.c	2012-05-31 17:51:38.000000000 +0000
++++ build_x86_linux/ndas-3.2-0/admin/ndasadmin.c	2012-06-01 04:15:49.000000000 +0000
+@@ -1157,7 +1157,7 @@ int is_2_6_kernel()
+         return -1;
+     }
+     dbg_ndadmin(3, "release=%s", ut.release);
+-    return strncmp(ut.release, "2.6", 3) == 0  ? 1 : 0;
++    return strncmp(ut.release, "3.2", 3) == 0  ? 1 : 0;
+ }
+ 
+ static int set_io_scheduler(char* ndas_device) {

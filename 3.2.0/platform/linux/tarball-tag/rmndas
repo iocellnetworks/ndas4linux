@@ -1,0 +1,9 @@
+rm /etc/init.d/ndas /etc/rc?.d/[SK]??ndas
+rm /etc/ndas.conf
+rm -rf /lib/modules/*/kernel/drivers/block/ndas
+rm -rf /usr/lib/ndas
+rm -rf /usr/sbin/ndasadmin
+rm -rf /usr/share/ndas*
+rm -rf /usr/share/doc/ndas*
+rm -rf /usr/src/modules/ndas
+rm -rf /usr/src/ndas*
