@@ -1,1 +1,0 @@
-nxp-cflags += -Wp, -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -O2  -mabi=32 -G 0 -mno-abicalls -fno-pic -pipe -msoft-float -ffreestanding  -march=mips32 -Wa,-mips32 -Wa,--trap -fomit-frame-pointer  -Wdeclaration-after-statement

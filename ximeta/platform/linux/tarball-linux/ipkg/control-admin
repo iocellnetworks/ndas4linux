@@ -1,9 +1,0 @@
-Package: ndas-admin
-Priority: optional
-Section: net
-Maintainer: Gene Park <jhpark@ximeta.com>
-Source: http://code.ximeta.com/dev/NDAS_VERSION/NDAS_BUILD/openwrt/ndas-NDAS_VERSION-NDAS_BUILD.tar.gz
-Description: NDAS admin utility
-Version: NDAS_VERSION-NDAS_BUILD
-Architecture: mipsel
-
