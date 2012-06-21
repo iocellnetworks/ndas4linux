@@ -372,7 +372,7 @@ $(ndas_root)/ndas.o: $(ndas_root)/libndas.a
 
 else # myself
 $(ndas_root)/ndas_emu_s.ko: FORCE
-	@echo Invoking make againt the kernel at $(NDAS_KERNEL_PATH)
+	@echo Invoking make against the kernel at $(NDAS_KERNEL_PATH)
 	$(MAKE) -C $(NDAS_KERNEL_PATH) \
 		SUBDIRS=$(ndas_root) \
 		KBUILD_VERBOSE=1 \
@@ -381,7 +381,7 @@ $(ndas_root)/ndas_emu_s.ko: FORCE
 		modules
 
 $(ndas_root)/ndas_blk_s.ko: FORCE
-	@echo Invoking make againt the kernel at $(NDAS_KERNEL_PATH)
+	@echo Invoking make against the kernel at $(NDAS_KERNEL_PATH)
 	$(MAKE) -C $(NDAS_KERNEL_PATH) \
 		SUBDIRS=$(ndas_root) \
 		KBUILD_VERBOSE=1 \
@@ -390,7 +390,7 @@ $(ndas_root)/ndas_blk_s.ko: FORCE
 		modules
 
 $(ndas_root)/ndas_scsi_s.ko: FORCE
-	@echo Invoking make againt the kernel at $(NDAS_KERNEL_PATH)
+	@echo Invoking make against the kernel at $(NDAS_KERNEL_PATH)
 	$(MAKE) -C $(NDAS_KERNEL_PATH) \
 		SUBDIRS=$(ndas_root) \
 		KBUILD_VERBOSE=1 \
@@ -401,7 +401,7 @@ $(ndas_root)/ndas_scsi_s.ko: FORCE
 
 
 $(ndas_root)/ndas_sal.ko $(ndas_root)/ndas_core.ko $(ndas_root)/ndas_block.ko $(ndas_root)/ndas_scsi.ko $(ndas_root)/ndas_emu.ko: FORCE
-	@echo Invoking make againt the kernel at $(NDAS_KERNEL_PATH)
+	@echo Invoking make against the kernel at $(NDAS_KERNEL_PATH)
 	$(MAKE) -C $(NDAS_KERNEL_PATH) \
 		SUBDIRS=$(ndas_root) \
 		KBUILD_VERBOSE=1 \

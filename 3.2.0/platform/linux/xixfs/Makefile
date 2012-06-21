@@ -327,7 +327,7 @@ $(ndas-xixfs-obj): %.o : /%.c
 
 else # myself
 $(xixfs_root)/ndas_xixfs.ko: FORCE
-	@echo Invoking make againt the kernel at $(NDAS_KERNEL_PATH)
+	@echo Invoking make against the kernel at $(NDAS_KERNEL_PATH)
 	$(MAKE) -C $(NDAS_KERNEL_PATH) \
 		SUBDIRS=$(xixfs_root) \
 		KBUILD_VERBOSE=1 \
