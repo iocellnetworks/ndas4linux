@@ -1,0 +1,41 @@
+#! /bin/sh
+# Create the block file to send the commands
+test ! -b /dev/ndas && mknod -m 644 /dev/ndas c 60 0
+M=0
+# Let's create the block device files to access the hard disk. 
+# Just for 8 hard disk, but you can increase if you want.
+for s in a b c d;
+do
+    test ! -b /dev/nd${s} && mknod -m 644 /dev/nd${s} b 60 $M
+    for t in 1 2 3 4 5 6 7;
+    do
+	M=$(($M + 1))
+	test ! -b /dev/nd${s}${t} && mknod -m 644 /dev/nd${s}${t} b 60 $M
+    done
+    M=$(($M + 1))
+done
+
+# Now load the system abstraced layer implementation for NDAS technology
+insmod /lib/modules/`uname -r`/ndas_sal.* > /dev/null 2>&1
+if [ ! $? ] ; then
+    echo " kernel version or gcc compiler version is not matched";
+    exit 1;
+fi
+# Load the NDAS core functions
+insmod /lib/modules/`uname -r`/ndas_core.* > /dev/null 2>&1
+if [ ! $? ] ; then
+    echo " fail"
+    exit 1;
+fi
+# Load the block device implementation for NDAS
+insmod lib/modules/`uname -r`/ndas_block.* > /dev/null 2>&1
+if [ ! $? ] ; then
+    echo " fail"
+    exit 1;
+fi
+# Start the service
+/usr/sbin/ndasadmin start > /dev/null 2>&1
+if [ ! $? ]; then
+    echo " fail"
+    exit 1;
+fi
