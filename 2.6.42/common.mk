@@ -253,6 +253,7 @@ clean: os-clean
 		$(nxp-lib-internal) $(nxp-lib-obj) \
 		$(nxp-extra-obj) \
 		$(nxp-lib) $(nxp-lib-internal:%.o=%.o.cmd)
+	find . \( -name '*~' \) -type f -print | xargs rm -f
 
 FORCE:
 

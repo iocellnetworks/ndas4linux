@@ -11,17 +11,34 @@
 #
 # This file is included by platform/linux/module.mk
 #
-nxpl-tarball-name=ndas
-nxp-ver-string=$(NDAS_VER_MAJOR).$(NDAS_VER_MINOR)-$(NDAS_VER_BUILD)
 
+#
+# add a suffix to the tarball for easy downloading and identification
+# 
 ifeq ($(nxp-cpu), x86_64)
 NDAS_RPM_ARCH=x86_64
-NDAS_TARBALL_ARCH_MOD=.x86_64
+NDAS_TARBALL_ARCH_MOD=x86_64
+else
+ifeq ($(nxp-cpu), arm)
+NDAS_RPM_ARCH=arm
+NDAS_TARBALL_ARCH_MOD=arm
 else
 NDAS_RPM_ARCH=i386 i486 i586 i686 athlon
-NDAS_TARBALL_ARCH_MOD=
+NDAS_TARBALL_ARCH_MOD=x86
+endif
 endif
 
+#
+# debugger version
+#
+ifeq ($(nxpo-debug), y)
+NDAS_TARBALL_ARCH_MOD:=${NDAS_TARBALL_ARCH_MOD}.dbg
+endif
+
+nxpl-tarball-name=ndas
+nxp-ver-string=$(NDAS_VER_MAJOR).$(NDAS_VER_MINOR).$(NDAS_VER_BUILD).$(NDAS_TARBALL_ARCH_MOD)
+
+#
 # the source tarball to build the RPMs
 #
 nxpl-tarball:=$(nxp-dist)/$(nxpl-tarball-name)-$(nxp-ver-string).tar.gz
@@ -157,6 +174,7 @@ $(nxpl-tarball): $(nxpl-tar-files) \
 	chmod u+x $(nxpl-tar-path)/debian/rules
 	chmod u+x $(nxpl-tar-path)/ndas $(nxpl-tar-path)/mknod.sh	 $(nxpl-tar-path)/ndas.suse
 	tar zcvf $@ --directory=$(nxp-build) $(^:$(nxp-build:./%=%)/%=%)
+
 ifeq ($(nxpo-automated),y)
 #
 # the tarball to create Binary RPM for automated cron build
@@ -305,10 +323,14 @@ $(nxpl-tar-path)/version.mk: version.mk
 $(nxpl-tar-path)/ndas.spec: $(nxpl-tarball-path)/ndas.spec changelog.txt FORCE
 	@mkdir -p $(@D)
 	cat $(filter-out FORCE,$^) | \
-		sed -e "s|NDAS_RPM_VERSION|$(NDAS_VER_MAJOR).$(NDAS_VER_MINOR)|g" |\
+		sed -e "s|NDAS_RPM_VERSION|$(NDAS_VER_MAJOR).$(NDAS_VER_MINOR).$(NDAS_VER_BUILD).$(NDAS_TARBALL_ARCH_MOD)|g" |\
+		sed -e "s|NDAS_MIN_VERSION|$(NDAS_VER_MAJOR).$(NDAS_VER_MINOR).$(NDAS_VER_BUILD)|g" |\
 		sed -e "s|NDAS_RPM_BUILD|$(NDAS_VER_BUILD)|g" |\
 		sed -e "s|NDAS_RPM_ARCH|$(NDAS_RPM_ARCH)|g" |\
-		sed -e "s|NDAS_TARBALL_ARCH_MOD|$(NDAS_TARBALL_ARCH_MOD)|g" \
+		sed -e "s|NDAS_TARBALL_ARCH_MOD|$(NDAS_TARBALL_ARCH_MOD)|g" |\
+		sed -e "s|NDAS_VENDOR_NAME|$(NDAS_VENDOR)|g" |\
+		sed -e "s|NDAS_RPM_DOWNLOAD_URL|$(NDAS_LINUX_DOWNLOAD_URL)|g" |\
+		sed -e "s|NDAS_RPM_HOME_URL|$(NDAS_HOME_URL)|g" \
 		> $@
 
 $(filter-out $(nxpl-tar-path)/ndas.spec, \
