@@ -1,0 +1,348 @@
+#!/bin/bash
+# A script to write a file back and forth to some location reporting 
+# the results.
+usage() {
+echo "Usage:"  
+echo "     sh copytest source destination -OPTIONS"
+echo 
+echo "Description:"
+echo "     Use rsync to copy a file or directory from source to destination" 
+echo "for so long or so many times."
+echo 
+echo "OPTIONS:"
+echo " -r         After copying to the destination, the source is removed "
+echo "            and the data is written back. "
+echo " -h         Display this usage guide and exit."
+echo " -p         Do not show the progress of individual files as they"
+echo "            are copied."
+echo " -v         Minus verbosity from rsync. So, -a rather than -avi."
+echo "            It goes with -v, but makes worry nothing is happening."
+echo "            The idea is not to take any extra time during the test."
+echo " -t  hms    For some amount of time. Time is entered as hms."
+echo "            Example: 4h30m  or 300m or 1m30s "
+echo "            -t option will override this option."
+echo " -n  int    A number of times to perform the copy operation. "
+echo "            If used with -r, one time means copying back and forth."
+echo "            So it would actually copy twice as many times in that"
+echo "            case."
+echo " -l  file   Writes the summary of each copy to the specified file. "
+echo "            Logfile defaults to ./copytest.log and will overwrite "
+echo "            any previous record. "
+echo 
+echo "Examples:"
+echo "     copy 4GIG.tar from ./ to /media/external and back for 15 minutes."
+echo "     copytest 4GIG.tar /media/external -r -f 15m"
+echo 
+echo "     copy one external to another 5 times in a row:"
+echo "     copytest /media/external1 /media/external2 -t 5" 
+echo 
+}
+
+# Some variable place holders
+SRCE=
+DEST=
+TIMESPAN=
+ANDBACK=n
+VERBOSITY="-vi"
+LOGFILE=./copytest.log
+NUMTIMES=0
+SECONDS=0
+PROGRESS="--progress"
+TOMBS=0
+FRMBS=0
+COPYJOB=x
+MINCOPYTOTIME=0
+MINCOPYTOJOB=x
+MAXCOPYFROMTIME=0
+MAXCOPYFROMJOB=x
+KBMOVED=
+KBMOVEDH=
+
+TABLEWIDTH=80
+TABLEHEADER="\n%8s %8s %6s  %-56s\n"
+TABLEDIVIDER==========================================
+TABLEDIVIDER=$TABLEDIVIDER$TABLEDIVIDER
+TABLEFORMAT=" %8s %8s %6s  %-56s\n"
+
+OPTIND=1
+while getopts rhplvt:n: o
+do	case "$o" in
+	r)	ANDBACK=y
+		#echo AND-BACK=$ANDBACK
+		;;
+	t) TIMESPAN=$OPTARG
+		ISH=$(echo `expr index "$TIMESPAN" h`)
+		if [ $ISH -gt 0 ]; then
+			HOURS=$( echo $TIMESPAN | awk '{split($0, array, "h")}; {print array[1]};')
+			if [ "$HOURS" = "" ]; then
+				HOURS=0
+			fi
+			TIMESPAN=$( echo $TIMESPAN | awk '{split($0, array, "h")}; {print array[2]};')
+		else
+			HOURS=0
+		fi 
+
+		ISH=$(echo `expr index "$TIMESPAN" m`)
+		if [ $ISH -gt 0 ]; then
+			MINUTES=$( echo $TIMESPAN | awk '{split($0, array, "m")}; {print array[1]};')
+			if [ "$MINUTES" = "" ]; then
+				MINUTES=0
+			fi
+			TIMESPAN=$( echo $TIMESPAN | awk '{split($0, array, "m")}; {print array[2]};')
+		else 
+			MINUTES=0
+		fi 
+
+		ISH=$(echo `expr index "$TIMESPAN" s`)
+		if [ $ISH -gt 0 ]; then
+			SECONDS=$( echo $TIMESPAN | awk '{split($0, array, "s")}; {print array[1]};')
+			if [ "$SECONDS" = "" ]; then
+				SECONDS=0
+			fi
+			TIMESPAN=$( echo $TIMESPAN | awk '{split($0, array, "s")}; {print array[2]};')
+		else
+			SECONDS=0
+		fi 
+
+		SECONDS=$(( HOURS*60*60 + MINUTES*60 + SECONDS ))
+		if [ $SECONDS -le 0 ]; then
+			echo Error: option -f without usable time span. 
+			exit 1
+		fi
+		;;
+	n) NUMTIMES="$OPTARG"
+		#echo NUM-TIMES=$NUMTIMES
+		;;
+	l) LOGFILE=$OPTARG
+		;;
+	h) 
+		usage
+		exit 0
+		;;
+	p) PROGRESS=
+		;;
+	v) VERBOSITY=
+		;;
+	[?])	echo 
+		echo "Unknown or illegal option" 
+		echo 
+		usage
+		exit 1;
+		;;
+	esac
+done
+shift $((OPTIND-1))
+
+if [ $# -gt 2 ]; then
+	echo
+	echo "Accepts only one source and one destination argument."
+	echo
+	exit 1
+elif [ $# -lt 2 ]; then
+	echo
+	echo "Requires one source and one destination argument."
+	echo
+	exit 1
+fi
+
+# seems we've got all parameters. So let's try to copy
+SRCE=$1
+DEST=$2
+COPYJOB="$SRCE -> $DEST" 
+
+# blank out the log file
+cat /dev/null > $LOGFILE
+
+doodacopy(){
+# this function is called to do each copy
+# use the full source path in case of a return trip.
+SRCEFULLPATH=$(readlink -f $SRCE)
+ 
+# run copy according to preferences
+
+#look for existing file in destination and remove it or all files
+#if the source is a directory.
+if [ -f $SRCEFULLPATH ]; then
+	FNAME=$( echo $SRCEFULLPATH | awk -F"/" '{print $NF}' )
+	PATHSIZECHECK=$DEST/$FNAME
+	if [ -f $PATHSIZECHECK ]; then
+		rm -f $PATHSIZECHECK
+		if [ -f $PATHSIZECHECK ]; then
+			echo "Error removing previous file. Maybe check permissions?"
+			ls -l $PATHSIZECHECK
+			exit 1
+		fi
+	fi
+fi 
+if [ -d $SRCEFULLPATH ]; then
+	#just use the folder name for the destination check.
+	NOLASTSLASH=`echo "${SRCEFULLPATH}"  | sed -e "s/\/*$//" `
+	FNAME=$( echo $NOLASTSLASH | awk -F"/" '{print $NF}' )
+	PATHSIZECHECK=$DEST/$FNAME
+	if [ -d $PATHSIZECHECK ]; then
+		rm -rf $PATHSIZECHECK
+		if [ -d $PATHSIZECHECK ]; then
+			echo "Error removing previous destination directory." 
+			echo "Maybe check permissions?" 
+			ls -l $PATHSIZECHECK
+			
+			exit 1
+		fi
+	fi
+fi 
+
+# One more test. In the case of a file, the destination should be 
+# an existing directory. Adding a new directory to the end of rsync
+# caused an error where it did not create the new dir.
+if [ -f $SRCEFULLPATH ] && ! [ -d $DEST ]; then
+	#try to create destination directory
+	mkdir $DEST
+	if [ $? -ne 0 ]; then
+		echo Error: destination directory does not exist.
+		exit 1
+	fi
+fi
+
+# so things should be cleaned up on the destination. 
+# Now we can copy the new data.
+echo rsync -a $VERBOSITY $PROGRESS $SRCEFULLPATH $DEST >> $LOGFILE
+STARTTIME=$( date +%s )
+rsync -ah $VERBOSITY $PROGRESS $SRCEFULLPATH $DEST
+ENDTIME=$( date +%s )
+
+# get the destination file in bytes
+KBMOVED=$(du -s $PATHSIZECHECK | awk '{print $1}' )
+KBMOVEDH=$(du -sh $PATHSIZECHECK | awk '{print $1}' )
+SECSTOMOVE=$((ENDTIME - STARTTIME))
+}
+
+reverse(){
+# This function just switches source and destination, calls doodacopy, then
+# puts the source and destination back to their original assignment. 
+
+if [ "$VERBOSITY" = "-vi" ]; then 
+	echo Return copy required
+fi
+
+ORIGINALSRCE=$SRCE
+NEWSRCEFULLPATH=$(readlink -f $SRCE)
+
+ORIGINALDEST=$DEST
+# It might have a slash at the end.
+TMPDEST=`echo "${DEST}"  | sed -e "s/\/*$//" `
+
+# We need to use only the file or directory name to see if
+# it exists in the previous destination.
+if [ -f $NEWSRCEFULLPATH ]; then
+	FNAME=$( echo $NEWSRCEFULLPATH | awk -F"/" '{print $NF}' )
+elif [ -d $NEWSRCEFULLPATH ]; then
+	#just use the folder name for the destination check.
+	NOLASTSLASH=`echo "${NEWSRCEFULLPATH}"  | sed -e "s/\/*$//" `
+	FNAME=$( echo $NOLASTSLASH | awk -F"/" '{print $NF}' )
+fi
+
+NEWSRCEFULLPATH=$TMPDEST/$FNAME
+if [ -f $NEWSRCEFULLPATH ] || [ -d $NEWSRCEFULLPATH ]; then
+		SRCE=$NEWSRCEFULLPATH
+else
+	echo "Error: The expected return copy source does not exist."
+	echo "Check $NEWSRCEFULLPATH"
+	exit 1
+fi 
+
+# Source is changed, so let's now switch the destination.
+# Now we only need the full path to the directory
+
+TMPNEWDEST=$(readlink -f $ORIGINALSRCE)
+DEST=$(echo `dirname $TMPNEWDEST`)
+
+# call doodacopy to transfer everything back.
+doodacopy
+
+# Put source and destination back to original.
+SRCE=$ORIGINALSRCE
+DEST=$ORIGINALDEST
+ 
+}
+
+loggit(){
+if [ $SECSTOMOVE -gt 0 ]; then
+	hours=$((SECSTOMOVE / 3600))
+	seconds=$((SECSTOMOVE % 3600))
+	minutes=$((SECSTOMOVE / 60))
+	seconds=$((SECSTOMOVE % 60))
+	
+	KBS=$(( KBMOVED / SECSTOMOVE ))
+	MBMOVED=$((KBMOVED / 1024))
+	MBS=$(( MBMOVED / SECSTOMOVE ))
+
+	echo "Size: $KBMOVEDH " >> $LOGFILE
+	echo "Time: $hours:$minutes:$seconds" >> $LOGFILE
+	echo KB/s = $KBS >> $LOGFILE
+	echo Roughly, $MBS MB/s. >> $LOGFILE
+	echo "" >> $LOGFILE
+	if [ "$VERBOSITY" = "-vi" ]; then 
+		echo Roughly, $MBS MB/s.
+		echo ""
+	fi
+else
+	echo -n $KBMOVEDH in less than 1 second. >> $LOGFILE 
+	echo Try some larger directory or bigger file. >> $LOGFILE
+	echo "" >> $LOGFILE
+	if [ "$VERBOSITY" != "" ]; then 
+		echo -n "$KBMOVEDH in less than 1 second. "
+		echo "Maybe try some larger directory or bigger file."
+		echo ""
+	fi
+fi
+}
+
+tableout(){
+printf "$TABLEFORMAT" "$TOMBS" "$FRMBS" "$KBMOVEDH" "$COPYJOB"
+}
+
+# now we are calling doodacopy based on other options sent in from the user.
+if [ $NUMTIMES -gt 0 ]; then
+	COUNT=0
+	while [ $COUNT -lt $NUMTIMES ]
+	do
+		doodacopy
+		# complete return copy if requested.
+		if  [ "$ANDBACK" = "y" ]; then
+			reverse
+		fi
+		COUNT=$((COUNT + 1))
+	done
+		
+elif [ $SECONDS -gt 0 ]; then
+	STARTINGTIME=$( date +%s )
+	ENDINGTIME=$(( STARTINGTIME + SECONDS))
+	
+	printf "$TABLEHEADER" " MB/s To" "From" "Size" "Initial Job"
+	printf "%$width.${TABLEWIDTH}s\n" "$TABLEDIVIDER"
+
+	while [ $STARTINGTIME -lt $ENDINGTIME ]
+	do 
+		doodacopy
+		TOMBS=$(( KBMOVED / 1024 ))
+		TOMBS=$(( TOMBS / SECSTOMOVE ))
+
+		# complete return copy if requested.
+		if  [ "$ANDBACK" = "y" ]; then
+			reverse
+			FRMBS=$(( KBMOVED / 1024 ))
+			FRMBS=$(( FRMBS / SECSTOMOVE ))
+
+		fi
+		tableout
+		STARTINGTIME=$( date +%s )
+	done		
+else
+	doodacopy
+	# complete return copy if requested.
+	if  [ "$ANDBACK" = "y" ]; then
+		echo Return copy required
+		reverse
+	fi
+	loggit
+fi

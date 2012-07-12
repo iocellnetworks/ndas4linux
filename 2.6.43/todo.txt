@@ -1,0 +1,23 @@
+todo
+
+debian export script does not make the deb file correctly. the modules
+do not install after running dpkg on the .dep file.
+
+properly map the slot->disk->private_data to the device. It currently
+contains one integer that represents the slot. Possibly:
+	slot->disk->private_data = slot
+
+Search for and remove:
+	NDAS_MSHARE sections of all code
+	Kernel version < 2.6 code
+	jukebox code
+	ucosii references
+	ps2dev references
+	vxworks references
+
+Update to later kernel versions for delivery to linux/drivers/staging
+	
+2.6.32 - Fix the bug where all subsequent devices seem to use the first
+device's request queue. "blkid bug" 
+
+
