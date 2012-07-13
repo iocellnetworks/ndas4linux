@@ -105,7 +105,7 @@ California and of the United States of America.
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,10))
 MODULE_LICENSE("Proprietary, Send bug reports to linux@iocellnetworks.com");
 #endif
-MODULE_AUTHOR("Ximeta, Inc.");
+MODULE_AUTHOR("IOCELL Networks");
 
 #ifndef NDAS_IO_UNIT
 #define NDAS_IO_UNIT 64 // KB

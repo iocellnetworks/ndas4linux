@@ -31,7 +31,12 @@
 # Epoch is increased to 1 due to version scheme changes
 %define ndas_rpm_epoch 1
 %define ndas_rpm_version NDAS_RPM_VERSION
-%define ndas_rpm_release 1
+
+#
+# Use the fx identifier as the rpm release for fedora version
+#
+%define ndas_rpm_release %(if [ -f /etc/fedora-release ]; then uname -r | cut -d "." -f 5 ; else 1; fi)
+
 %define ndas_min_version NDAS_MIN_VERSION
 %define ndas_kernel_version %(if [ -z "$NDAS_KERNEL_VERSION" ]; then uname -r ; else echo $NDAS_KERNEL_VERSION; fi)
 %define ndas_kernel_version_simple %( echo %{ndas_kernel_version} | sed -e 's|-smp4G||g' -e 's|-bigsmp||g' -e 's|-psmp||g' -e 's|-smp||g' -e 's|smp||g' -e 's|xen0||' -e 's|xenU||' -e 's|-xenpae||' -e 's|-xen||' -e 's|xen||' -e 's|-default||' -e 's|-hugemem||' -e 's|hugemem||' -e 's|-kdump||' -e 's|kdump||' -e 's|PAE||' -e 's|-debug||' -e 's|-bigmem||' -e 's|bigmem||' -e 's|-SLRS||' -e 's|SLRS||' -e 's|-enterprise||' -e 's|enterprise||')
@@ -39,15 +44,18 @@
 %define ndas_rpm_packager %(echo "ndasusers at iocellnetworks.com")
 %define ndas_homepage NDAS_RPM_HOME_URL
 %define ndas_version_download_url NDAS_RPM_DOWNLOAD_URL
+
+#
 # Distros
 #
 %define ndas_redhat %(test ! -n "$NDAS_REDHAT"; echo $?)
 %define ndas_suse %(test ! -n "$NDAS_SUSE"; echo $?)
 
-%if !%{ndas_redhat} && !%{ndas_suse}
+%if !%{ndas_redhat} && !%{ndas_suse}  
 %define ndas_redhat %(test ! -f /etc/fedora-release -a ! -f /etc/redhat-release -a ! -f /etc/mandrake-release -a ! -f /etc/mandriva-release -a ! -f /etc/mandrakelinux-release; echo $?)
 %define ndas_suse %(test ! -f /etc/SuSE-release; echo $?)
 %endif
+
 #
 # Identify which kernel version we will build the NDAS driver for.
 #
@@ -76,6 +84,7 @@
 %define ndas_for_bigmem %(echo %{ndas_kernel_version} | grep -c bigmem)
 %define ndas_for_SLRS %(echo %{ndas_kernel_version} | grep -c SLRS)
 %define ndas_for_enterprise %(echo %{ndas_kernel_version} | grep -c enterprise)
+
 #
 # postfix name of package name ie: -smp, -hugmem
 #

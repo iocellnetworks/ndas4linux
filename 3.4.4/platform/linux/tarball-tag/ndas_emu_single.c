@@ -43,7 +43,7 @@
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,10))
 MODULE_LICENSE("Dual BSD/GPL");
 #endif
-MODULE_AUTHOR("Ximeta, Inc.");
+MODULE_AUTHOR("IOCELL Networks");
 
 char* dev = "/dev/discs/disc0/disc"; //"/dev/hda";
 NDAS_MODULE_PARAM_STRING(dev, S_IRUGO);

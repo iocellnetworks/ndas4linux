@@ -43,7 +43,7 @@
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,10))
 MODULE_LICENSE("Dual BSD/GPL");
 #endif
-MODULE_AUTHOR("Ximeta, Inc.");
+MODULE_AUTHOR("IOCELL Networks");
 
 
 int ndas_sal_init(void) 

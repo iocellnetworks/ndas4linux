@@ -1,5 +1,8 @@
 todo
 
+Method for choosing fedora f## is not reliable. Should be changed
+in ndas.spec
+
 platform/linux/tarball-tag/Makefile should export with the correct
 setting for NDAS_DEBUG. Currently, debug needs to be turned on 
 when compiling the dbg source.
