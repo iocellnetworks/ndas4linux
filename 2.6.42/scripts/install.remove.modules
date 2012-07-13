@@ -1,0 +1,26 @@
+echo "Blank logs and install then modules"
+
+echo su -c 'echo "install ndas_sal" > /var/log/messages'
+su -c 'echo "install ndas_sal" > /var/log/messages'
+echo su -c modprobe -v "install ndas_sal"
+su -c "modprobe -v ndas_sal"
+
+echo su -c 'echo "install ndas_core" >> /var/log/messages'
+su -c 'echo "install ndas_core" >> /var/log/messages'
+echo su -c modprobe -v "install ndas_core"
+su -c "modprobe -v ndas_core"
+ 
+echo Sleep 3 seconds
+sleep 3
+
+echo "Remove modules"
+
+echo su -c 'echo "remove ndas_core" >> /var/log/messages'
+su -c 'echo "remove ndas_core" >> /var/log/messages'
+echo su -c modprobe -v -r "remove ndas_core"
+su -c "modprobe -v -r ndas_core"
+
+echo su -c 'echo "remove ndas_sal" >> /var/log/messages'
+su -c 'echo "remove ndas_sal" >> /var/log/messages'
+echo su -c modprobe -v -r "remove ndas_sal"
+su -c "modprobe -v -r ndas_sal"

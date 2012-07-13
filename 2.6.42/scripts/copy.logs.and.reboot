@@ -1,0 +1,11 @@
+cp /var/log/messages /home/david/messages.`date | awk '{print $4}' | sed 's/:/./g'`
+chown david /home/david/messages*
+rm -f /etc/init.d/ndas 
+
+echo -n "Reboot? [y/N] "
+read rbt
+
+if [ "$rbt" == "y" ]; then
+	echo reboot -n -f --reboot
+fi
+ 
