@@ -550,7 +550,7 @@ LOCAL ndas_error_t lpxitf_destroy(lpx_interface     *interface)
     sal_netdev_close(interface->nd);
     sal_spinlock_destroy(interface->itf_sklock);
     sal_free(interface);
-    debug_lpx(2, "ed");
+    debug_lpx(1, "ed");
     return ret;;
 }
 

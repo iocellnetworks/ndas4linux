@@ -2,6 +2,15 @@ ndas (3.2-0) unstable; urgency=low
   * Built on Ubuntu
  -- ndasusers <linux@iocellnetworks.com>  Wed, 6 Jun 2012 16:00:00 -0500
 
+ndas (2.6.42) unstable; 
+ *	Working version on Fedora 15 x86
+ * Update RPM spec file
+ -- ndasusers <linux@iocellnetworks.com> Wed, 27 Jun 2012 16:00:00 -0500
+ 
+ndas (2.6.32) unstable;
+ *	Employed a workaround for the block id bug
+ -- ndasusers <linux@iocellnetworks.com> Mon, 15 Apr 2012 16:00:00 -0500
+ 
 ndas (1.1-24) unstable; urgency=low
   * Support debian package
  -- Ilgu Hong <ighong@ximeta.com>  Wed, 11 Jun 2008 14:00:00 -0700

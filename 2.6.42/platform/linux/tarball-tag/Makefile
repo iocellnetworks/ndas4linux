@@ -132,23 +132,31 @@ ifeq ($(shell echo $(NDAS_KERNEL_VERSION)| cut -d'.' -f1-2),2.4)
 ndas-kernel-cflags+=$(call ndas_kernel_variable,CFLAGS)
 ndas-kernel-ldflags+=$(call ndas_kernel_variable,LDFLAGS) 
 endif
+
 #
-# Debug build
+# Set NDAS_DEBUG to y and levels below
 #
-NDAS_DEBUG=
+#NDAS_DEBUG=y
 ifdef NDAS_DEBUG
 ndas-app-cflags+=-DDEBUG -g 
 
-#only below while hunting for the bugs with the stack dump.
+#rdynamic if hunting for the bugs with the stack dump.
 ndas-kernel-cflags+=-DDEBUG -rdynamic
-
 #ndas-kernel-cflags+=-DDEBUG
+
 #
 # for 2.6.x kernel
 #
 EXTRA_CFLAGS+=-DDEBUG $(EXTRA_CFLAGS)
+
+NDAS_DEBUGLEVEL=8
+NDAS_DEBUGLEVEL_BLOCK=8
+NDAS_DEBUG_DROP_BROADCAST=8
+
 include $(ndas_root)/debuglevel.mk
+
 endif
+
 
 #
 # Use devfs

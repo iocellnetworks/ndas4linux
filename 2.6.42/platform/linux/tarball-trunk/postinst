@@ -1,8 +1,0 @@
-#!/bin/sh
-if [ -f /dev/ndas ] ; then
-    rm -f /dev/ndas; # for ticket #44 of ndas4linux.iocellnetworks.com
-fi     
-ln -sf /usr/share/ndas/ndas /etc/init.d/ndas;
-/usr/sbin/update-rc.d ndas start 73 2 3 4 5 . stop 13 0 1 6 .
-
-/bin/sh /etc/init.d/ndas start
