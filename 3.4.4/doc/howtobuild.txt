@@ -15,25 +15,41 @@ variable setup.
 	x86 	linux-rel or linux-dev
 	x86_64	linux64-rel or linux64-dev
 
+	rel = release
+	dev = development or debugger version 
+	Note: After exporting the dev version, you need to turn on debug
+	messages in the build folder. There is a note about that later. 
+	Do: vi Makefile 
+	Change NDAS_DEBUG= to NDAS_DEBUG=y
+	Save and exit.
+
 
 Here is an example download and build for x86 32bit on Fedora 16: 
-
 
 1) Download and export a build folder. 
 	$ git clone gitosis@ndas4linux.iocellnetworks.com:ndas4linux
 	$ cd ndas4linux/3.4.4
 	$ make linux-rel
 
-This creates a working build folder and tarball of what is in the working
-build folder and the distributable tarball. To see what you have, try:
+This creates a working build folder and tarball of what is in main folders
+down below. To see what you have, try:
 
 	$ ls dist
 	libndas.a	ndas-3.4-4.x86.tar.gz
+
+The library file is made mostly of the folders on the top level. 
+These files are still under proprietary license, though open source
+for now. The tarball includes the library and the platform sources 
+which are mostly GNU licensed. 
+
 	$ ls build_x86_linux/ndas-3.4-4.x86
 	admin        debuglevel.mk  ipkg and some other files and folders
 
+This is the working build folder. It is the source for /dist/ndas-3..tar.gz
 
-2) Next you want to try building and running the software as follows.
+
+2) If you chose the dev (debug) version, now you should edit that Makefile to
+turn on debug messages. Then build and run the software as follows.
 
 	$ cd build_x86_linux/ndas-3.4-4.x86
 	$ make
@@ -41,7 +57,7 @@ build folder and the distributable tarball. To see what you have, try:
 	$ sudo /etc/init.d/ndas start
 
 
-3) If there modules load you then can test the usage with the ndasadmin tool.
+3) If the modules load you then can test the usage with the ndasadmin tool.
 	
 	$ sudo ndasadmin help
 
@@ -56,7 +72,7 @@ testing if anyone else has the same kernel.
 
 
 5) We should stop the current ndas, clean up all the files, then try 
-installing and using the rmp packages. 
+installing and using the rpm packages. 
 
 	$ sudo ndasadmin disable -s `N` <- N is each slot that was enabled.
 	$ sudo /etc/init.d/ndas stop
@@ -79,10 +95,12 @@ On the default Fedora machine it give the packages in the users home dir.
 	ndas-kernel-3.4.4.x86-fc16.i386.rpm
 
 
-7) Test installing the rpm and repeat the ndas usage testing that you did on 
-the source code. The ndas-admin rpm will automatically start ndas for you.
+7) Test installing the rpm and repeat the usage tests that you did on 
+original client code after step 3. One difference is that the ndas-admin rpm
+will automatically start ndas for you.
 
-	$ sudo rpm -ivh release/ndas-kernel-3.4.4.x86-fc16.i386.rpm
+	$ cd ~/rpmbuild/RPMS/i386/
+	$ sudo rpm -ivh ndas-kernel-3.4.4.x86-fc16.i386.rpm
 	$ sudo rpm -ivh ndas-admin-3.4.4.x86-fc16.i386.rpm 
 
 	# removing rpm #
@@ -93,7 +111,8 @@ the source code. The ndas-admin rpm will automatically start ndas for you.
 8) If the rpm worked, copy the packages into release and then push the new 
 tar.gz and rpm up to the repo.
 
-	$ cp ~/rpmbuild/RPMS/i386/* release
+	$ cp ./*  ~/ndas4linux/release
+	$ cd ~/ndas4linux
 	$ git add .
 	$ git commit 
 	$ git push
@@ -106,8 +125,10 @@ Good question.
 
 If there are compile errors or if something fails in the modules or ndasadmin
 program, it can probably be fixed in the build_x86_linux/ndas-#.#.#.x folder.
-When all is fixed in there and the build is stable, the changed files should
-be written into the original export folder. 
+When all is fixed and the build is stable, the changed files should be
+written into the original export folder. There are some other files in the 
+build folder, so be careful only to copy what is already in the original 
+location. 
 
 	$ cd ~/ndas4linux/3.4.4
 	$ rsync -r --existing \
@@ -125,4 +146,16 @@ the kernel you want to build for.
 	$ cd 2.6.41
 	$ vi version.mk
 	
+
+What is the difference of dev and rel?
+
+The rel sends out a very quiet version. It only shows a few printk reports to
+the system logs, and just a few messages to the cli. Also, the library code
+is obfuscated.
+
+The dev options will export a "dbg" tarball and source folder. This version
+will create very large log files of everything that is happening as the 
+driver is running. You can tweak the output of the dbg version by first 
+editing ndas4linux/3.4.4/inc/dbgcfg.h then running make linux-dev.
+
 
