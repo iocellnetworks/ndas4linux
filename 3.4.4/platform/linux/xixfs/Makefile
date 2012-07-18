@@ -137,13 +137,42 @@ ndas-kernel-ldflags:=
 
 ndas-kernel-cflags+= -D__XIXCORE_DEBUG__
 
+
+#
+# Try to find the byteorder.h file
+#
+# Fedora and Debian
+LINUX_BYTE_ORDER_STRING_FILE?=/usr/include/asm/byteorder.d 
+ifeq ($(wildcard $(LINUX_BYTE_ORDER_STRING_FILE)),)
+LINUX_BYTE_ORDER_STRING_FILE:=/usr/src/kernels/$(NDAS_KERNEL_VERSION)/arch/$(NDAS_KERNEL_ARCH)/include/asm/byteorder.h
+endif
+
+# Random x86 architecture
+X86_ARCH?=$(shell uname -m | sed 's/x86_64/x86/' | sed 's/i686/x86/' | sed 's/i386/x86/')
+ifeq ($(wildcard $(LINUX_BYTE_ORDER_STRING_FILE)),)
+LINUX_BYTE_ORDER_STRING_FILE:=/usr/src/kernels/$(NDAS_KERNEL_VERSION)/arch/$(X86_ARCH)/include/asm/byteorder.h
+endif
+
+# Manually set kernel path and architecture 
+ifeq ($(wildcard $(LINUX_BYTE_ORDER_STRING_FILE)),)
+LINUX_BYTE_ORDER_STRING_FILE:=$(NDAS_KERNEL_PATH)/arch/$(NDAS_KERNEL_ARCH)/include/asm/byteorder.h
+endif
+
+#
+# All the attempts failed. Please set it manuallly
+#
+ifeq ($(wildcard $(LINUX_BYTE_ORDER_STRING_FILE)),)
+$(error Failed to identify the byteorder.h file. Please set the path manually.)
+$(Ex: export LINUX_BYTE_ORDER_STRING_FILE=/path/to/your/arch/byteorder.h )
+endif
+
+
 #
 # Retreive byte order string from linux kernel header.
 #
-
 LINUX_BYTE_ORDER_STRING_TEMP:=$(shell $(ndas-cc)  \
 	-I$(NDAS_KERNEL_PATH)/include  \
-	-E -dM /usr/include/asm/byteorder.h | grep "_ENDIAN")
+	-E -dM $(LINUX_BYTE_ORDER_STRING_FILE) | grep "_ENDIAN")
 
 LINUX_BYTE_ORDER_STRING:=$(findstring __LITTLE_ENDIAN, \
 	$(LINUX_BYTE_ORDER_STRING_TEMP))
