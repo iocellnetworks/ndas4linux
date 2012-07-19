@@ -1,0 +1,19 @@
+Source: ndas
+Section: non-free/admin
+Priority: optional
+Maintainer: Ximeta, Inc.
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: ndas-modules-_KVERS_
+Architecture: any
+Provides: ndas-modules
+Description: ndas modules for Linux (kernel _KVERS_).
+ This package contains the set of loadable kernel modules for NDAS devices.
+ .
+ This package contains the compiled kernel modules for _KVERS_
+ .
+ If you have compiled your own kernel, you will most likely need to build
+ your own ndas-modules. The ndas-modules-source package has been
+ provided for use with the Debian's module-assistant or kernel-package
+ utilities to produce a version of ndas-modules for your kernel.

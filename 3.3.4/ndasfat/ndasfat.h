@@ -1,0 +1,122 @@
+#ifndef __NDASFAT_H__
+#define __NDASFAT_H__
+
+
+typedef struct _SUPERBLOCK_EXTENSION {
+
+	FAST_MUTEX					FastMutex;
+    atomic_t					ReferenceCount;
+
+#if 0
+	
+	LIST_ENTRY					LfsQListEntry;
+	
+    PDEVICE_OBJECT				FileSpyDeviceObject;
+
+#if __NDAS_FS_MINI__
+	PFLT_CONTEXT				InstanceContext;
+#endif
+
+	PVOID						NetdiskPartition;
+	NETDISK_ENABLE_MODE			NetdiskEnabledMode;
+	
+#define LFS_DEVICE_FLAG_INITIALIZING		0x00000001
+#define LFS_DEVICE_FLAG_MOUNTING			0x00000002
+#define LFS_DEVICE_FLAG_MOUNTED				0x00000004
+#define LFS_DEVICE_FLAG_DISMOUNTING			0x00000008
+#define LFS_DEVICE_FLAG_QUERY_REMOVE		0x00000010
+#define LFS_DEVICE_FLAG_DISMOUNTED			0x00000020
+#define LFS_DEVICE_FLAG_SHUTDOWN			0x00000040
+#define LFS_DEVICE_FLAG_REGISTERED			0x00000100
+#define LFS_DEVICE_FLAG_INDIRECT			0x00001000
+#define LFS_DEVICE_FLAG_CLNEANUPED			0x01000000
+#define LFS_DEVICE_FLAG_SURPRISE_REMOVED	0x02000000
+#define LFS_DEVICE_FLAG_ERROR				0x80000000
+
+	ULONG							Flags;
+
+	LFS_FILE_SYSTEM_TYPE			FileSystemType;
+	LFS_FILTERING_MODE				FilteringMode;
+
+    WORK_QUEUE_ITEM					WorkItem;
+
+	PVPB							Vpb;
+
+	PDEVICE_OBJECT					DiskDeviceObject;
+	PDEVICE_OBJECT					MountVolumeDeviceObject;
+
+	PDEVICE_OBJECT					BaseVolumeDeviceObject;
+	PDEVICE_OBJECT					AttachedToDeviceObject;
+
+#endif
+
+	NETDISK_PARTITION_INFORMATION	NetdiskPartitionInformation;
+
+#if 0
+
+	LPX_ADDRESS						PrimaryAddress;
+	UNICODE_STRING					FileSystemVolumeName;
+    WCHAR							FileSystemVolumeNameBuffer[DEVICE_NAMES_SZ];	
+
+#endif
+
+	struct _SECONDARY				*Secondary;		
+	
+#if 0
+
+	LFS_SECONDARY_STATE				SecondaryState;
+	ULONG							ProcessingIrpCount;
+	
+	//
+	//	Set TRUE if this volume is locked
+	//	through LOCK_VOLUME file system control
+	//
+
+	BOOLEAN							VolumeLocked;
+
+#if DBG
+	ULONG							IrpMajorFunctionCount[IRP_MJ_MAXIMUM_FUNCTION];
+#endif
+
+#define LFS_DEVICE_EXTENTION_THREAD_FLAG_TIME_OUT			(3*NANO100_PER_SEC)
+#define LFS_DEVICE_EXTENTION_TRY_FLUSH_OR_PURGE_DURATION	(LFS_DEVICE_EXTENTION_THREAD_FLAG_TIME_OUT - 1*NANO100_PER_SEC)
+
+	LARGE_INTEGER					TryFlushOrPurgeTime;
+	LARGE_INTEGER					CommandReceiveTime;
+	BOOLEAN							ReceiveWriteCommand;
+
+	HANDLE							ThreadHandle;
+	PVOID							ThreadObject;
+	
+	KEVENT							ReadyEvent;
+	KEVENT							RequestEvent;
+
+	struct _READONLY				*Readonly;		
+
+
+	struct {
+
+#define LFS_DEVICE_EXTENTION_THREAD_FLAG_INITIALIZING			0x00000001
+#define LFS_DEVICE_EXTENTION_THREAD_FLAG_START					0x00000002
+#define LFS_DEVICE_EXTENTION_THREAD_FLAG_STOPED					0x00000004
+#define LFS_DEVICE_EXTENTION_THREAD_FLAG_TERMINATED				0x00000008
+
+#define LFS_DEVICE_EXTENTION_THREAD_FLAG_CONNECTED				0x00000010
+#define LFS_DEVICE_EXTENTION_THREAD_FLAG_DISCONNECTED			0x00000020
+
+#define LFS_DEVICE_EXTENTION_THREAD_FLAG_UNCONNECTED			0x10000000
+#define LFS_DEVICE_EXTENTION_THREAD_FLAG_REMOTE_DISCONNECTED	0x20000000
+#define LFS_DEVICE_EXTENTION_THREAD_FLAG_ERROR					0x80000000
+		
+		ULONG						Flags;
+	
+	} Thread;
+
+#endif
+
+} SUPERBLOCK_EXTENSION, *PSUPERBLOCK_EXTENSION;
+
+extern int NdasfatDebugLevel;
+
+
+#endif
