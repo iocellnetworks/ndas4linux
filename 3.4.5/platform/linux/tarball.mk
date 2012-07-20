@@ -33,6 +33,7 @@ endif
 #
 ifeq ($(nxpo-debug), y)
 NDAS_TARBALL_ARCH_MOD:=${NDAS_TARBALL_ARCH_MOD}.dbg
+
 endif
 
 nxpl-tarball-name=ndas
@@ -321,7 +322,6 @@ $(nxpl-tar-path)/version.mk: version.mk
 # platform/linux/tarball/* files to be tar-ed into tarball
 #
 # Replace some variables in the spec file for rpm
- 
 $(nxpl-tar-path)/ndas.spec: $(nxpl-tarball-path)/ndas.spec changelog.txt FORCE
 	@mkdir -p $(@D)
 	cat $(filter-out FORCE,$^) | \
@@ -336,12 +336,23 @@ $(nxpl-tar-path)/ndas.spec: $(nxpl-tarball-path)/ndas.spec changelog.txt FORCE
 		sed -e "s|NDAS_RPM_HOME_URL|$(NDAS_HOME_URL)|g" \
 		> $@
 
+
 $(filter-out $(nxpl-tar-path)/ndas.spec, \
-		$(nxpl-tar-files)): \
-    $(nxpl-tar-path)/% : \
-    $(nxpl-tarball-path)/%
+	$(nxpl-tar-files)): \
+	$(nxpl-tar-path)/% : \
+	$(nxpl-tarball-path)/%
 	@mkdir -p $(@D)
 	cp $^ $@
+
+#
+#
+# Replace the Makefile debug invocation if needed
+ifeq ($(nxpo-debug), y)
+$(nxpl-tar-path)/Makefile: $(nxpl-tarball-path)/Makefile
+	cat $(filter-out FORCE,$^) | \
+		sed -e "s|#NDAS_DEBUG=y|NDAS_DEBUG=y|g" \
+	> $@
+endif
 
 #
 # platform/linux/$(nxp-vendor)/* files to be tar-ed into tarball

@@ -133,9 +133,9 @@ ndas-kernel-cflags+=$(call ndas_kernel_variable,CFLAGS)
 ndas-kernel-ldflags+=$(call ndas_kernel_variable,LDFLAGS) 
 endif
 #
-# Debug build
+# Debug build. Uncomment NDAS DEBUG to use.
 #
-NDAS_DEBUG=
+#NDAS_DEBUG=y
 ifdef NDAS_DEBUG
 ndas-app-cflags+=-DDEBUG -g 
 
