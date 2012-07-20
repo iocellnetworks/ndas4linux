@@ -1,11 +1,10 @@
 todo
 
+There are several compiler warnings that do not seem to affect usage.
+They should be cured.
+
 Method for choosing fedora f## is not reliable. Should be changed
 in ndas.spec
-
-platform/linux/tarball-tag/Makefile should export with the correct
-setting for NDAS_DEBUG. Currently, debug needs to be turned on 
-when compiling the dbg source.
 
 update references to SLOT_R(q) so they cast correctly according to 
 variable size and need.
@@ -17,7 +16,7 @@ debian export script does not make the deb file correctly. the modules
 do not install after running dpkg on the .dep file.
 
 blkid bug hack:
-Mus properly map the slot->disk->private_data to the device. It currently
+Must properly map the slot->disk->private_data to the device. It currently
 contains one integer that represents the slot. Possibly:
 	slot->disk->private_data = slot
 
