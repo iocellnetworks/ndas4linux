@@ -1,0 +1,26 @@
+* Fri Jul 13 2012 Version 3.4.4
+- Update admin/ndasadmin.c to remove reference to is_2_6 kernel. ndasadmin is no longer backward compatible. 
+- Update ndas.spec to use fedora's f# version in the rpm file
+
+* Thu Jul 12 2012 Version 2.6.43
+- Hacked sal/net.c to avoid using ndas_net_change_handler_func when the ndas_core module tries to unload or de-register the network adapter. ticket 1
+
+* Thu Jun 28 2012 Version 2.6.42
+- Changed the tarball export result to look like the kernel version.
+- rpm method exported an installable rpm on fc15
+
+* Wed Jun 27 2012 Version 2.6.42
+- Working version on Fedora 15 x86
+- Update RPM spec file
+
+* Sat Jun 2 2012 Version 3.2.0
+- Works on Ubuntu 12.04 ndas 3.x is not backward compatible. From now on we will not use compiler flags to include previous versions, but create next kernel level source.
+
+* Mon Apr 16 2012 Version 2.6.32
+- Employed a workaround for the block id bug
+
+* Tue Nov 29 2011 Version 2.6
+- Begin licensing entire source with GPL
+- Added gpl-2.0.txt
+- Change copyright to IOCELL Networks
+- Versions < 2.6.22 will be deprecated so users needing earlier versions must download legacy version from Ximeta. Only ndas-1.1-24 x86, x64, arm will be made available.

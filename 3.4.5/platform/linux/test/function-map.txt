@@ -1,0 +1,15 @@
+sal_debug_print( fprintf(stderr,
+sal_msleep( usleep(1000L\*
+sal_malloc malloc
+lpx_socket.*(.*LPX_TYPE_STREAM socket(PF_LPX,LPX_TYPE_STREAM
+lpx_bind bind
+lpx_listen listen
+lpx_connect connect
+lpx_accept accept
+lpx_close close
+lpx_recv recv
+lpx_send send
+sal_init(); 
+dpc_start(); 
+lpx_init(); 
+lpx_register_dev(\".*\") 0

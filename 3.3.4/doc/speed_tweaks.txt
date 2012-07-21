@@ -1,0 +1,6 @@
+Some tweaks to attempt with NDAS on Linux systems.
+
+The driver detects the current MTU when ndas is started. Try setting the MTU 
+for gigabit LAN to the max possible on your network adapter, then start NDAS.
+
+Change the queue scheduler on the device. 

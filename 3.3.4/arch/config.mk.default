@@ -1,0 +1,21 @@
+# -----------------------------------------------------------------------------
+# Copyright (c) IOCELL Networks Corp., Plainsboro NJ 08536, USA
+# All rights reserved. 
+# -----------------------------------------------------------------------------
+
+# Set default target
+nxp-cpu?=x86
+nxp-os?=linux
+nxp-target=$(nxp-cpu)_$(nxp-os)
+
+include $(nxp-root)/arch/cpu/$(nxp-cpu).mk
+include $(nxp-root)/arch/os/$(nxp-os).mk
+
+ifneq ($(nxp-vendor),)
+include $(nxp-root)/arch/vendor/$(nxp-vendor).mk
+endif
+
+ifdef nxp-os_VERSION
+nxp-target:=$(nxp-target)_$(nxp-os_VERSION)
+endif
+
