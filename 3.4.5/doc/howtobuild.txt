@@ -130,10 +130,15 @@ written into the original export folder. There are some other files in the
 build folder, so be careful only to copy what is already in the original 
 location. 
 
+This rsync command is one way to move the changes. It excludes the spec and 
+Makefiles because their content can change based on what is exported.  
+
 	$ cd ~/ndas4linux/3.4.4
-	$ rsync -r --existing \
+	$ rsync -rvi --existing --size-only --exclude=ndas.spec \
+		--exclude=Makefile \
 		build_x86_linux/ndas-3.4.4.x86 \
 		platform/linux/tarball-tag
+
 
 
 OK. What if I need a next level or different kernel?
