@@ -133,15 +133,16 @@ ndas-kernel-cflags+=$(call ndas_kernel_variable,CFLAGS)
 ndas-kernel-ldflags+=$(call ndas_kernel_variable,LDFLAGS) 
 endif
 #
-# Debug build
+# Debug build. Uncomment NDAS DEBUG to use.
 #
-NDAS_DEBUG=
+#NDAS_DEBUG=y
 ifdef NDAS_DEBUG
 ndas-app-cflags+=-DDEBUG -g 
 
 #only below while hunting for the bugs with the stack dump.
 ndas-kernel-cflags+=-DDEBUG -rdynamic
 
+#ndas-kernel-cflags+=-DDEBUG
 #
 # for 2.6.x kernel
 #
@@ -413,7 +414,7 @@ FORCE:
 endif # myself
 endif # 2.6
 
-#include $(ndas_root)/ipkg/module.mk
+include $(ndas_root)/ipkg/module.mk
 
 $(ndas-ndasadmin-out): $(ndas-ndasadmin-obj)
 	$(ndas_cmd_app_ld) 	

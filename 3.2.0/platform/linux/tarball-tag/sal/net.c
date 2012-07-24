@@ -358,7 +358,7 @@ sal_sock_destruct(struct sock *sk)
     dbgl_salnet(4, "%p",sk);
 }
 
-static int _sock_create(struct net *net, struct socket *sock, int protocol, int kern) 
+static int    _sock_create(struct net *net, struct socket *sock, int protocol, int kern) 
 {
     struct sock* sk;
 
@@ -440,7 +440,8 @@ static int v_notifiee(struct notifier_block *self, unsigned long event, void *pt
         spin_lock_irqsave(&v_sal_net_global.lock, flags);
         if(v_sal_net_global.net_change_handler) {
             spin_unlock_irqrestore(&v_sal_net_global.lock, flags);
-            v_sal_net_global.net_change_handler(SAL_NET_EVENT_DOWN, dev->name);
+            dbgl_salnet(1, "ignore forwarding netdev_event to ndas_change_handler because it crashed.");
+            /* v_sal_net_global.net_change_handler(SAL_NET_EVENT_DOWN, dev->name); */
         } else {
             spin_unlock_irqrestore(&v_sal_net_global.lock, flags);
             dbgl_salnet(1, "net change handler is not set");
@@ -451,7 +452,8 @@ static int v_notifiee(struct notifier_block *self, unsigned long event, void *pt
     }
 }
 
-/**
+/*
+ *
  * sal_net_init - initialize the SAL network layer
  * register rx handler to ether packet, 8022, snap and 
  * register net device event notifier. 
