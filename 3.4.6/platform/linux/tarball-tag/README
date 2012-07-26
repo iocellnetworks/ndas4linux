@@ -1,0 +1,81 @@
+0. Supports
+As this driver is a beta public review, the features of the driver are limited.
+- NDAS Aggregated disks are not supported.
+- Hibernation, standby are not supported
+- This driver is a beta until there is no bug report for three months to ndas4linux.iocellnetworks.com 
+
+1. Register the NetDisk
+
+ You can find NDAS "ID" and NDAS "key" from the the bottom of the NetDisk.
+
+ If your NDAS ID (20 characters) and NDAS key (5 characters) are
+
+  ID: AF7R2-2MKK4-UHG9S-5RHTG
+  KEY: 8QT6U
+
+ then execute the following commands.
+
+/usr/sbin/ndasadmin register AF7R2-2MKK4-UHG9S-5RHTG-8QT6U --name MyDisk
+
+ Please note that 'MyDisk' is any name named by you.
+ You will get the numeric slot number(s) for each disk on the NetDisk by
+ 
+cat /proc/ndas/devices/MyDisk/slots
+ 
+ check the status of the NetDisk, if you can get the slot number from commands above.
+
+cat /proc/ndas/devs
+
+ Make sure the NetDisk turns on and is attached in the same network.
+
+2. To enable the NetDisk, please type the following commands:
+
+ Use the numeric slot number that you get from /proc/ndas/devices/MyDisk/slots.  if you get '1' as the slot number from /proc/ndas/devices/MyDisk/slots then, execute one of the following command.
+ 
+/usr/sbin/ndasadmin enable -s 1 -o w   ( exclusive write and read mode )
+
+/usr/sbin/ndasadmin enable -s 1 -o r   ( read-only mode )
+
+/usr/sbin/ndasadmin enable -s 1 -o s   ( for GFS file system )
+
+ This command will print out the path of the block device file. For example,  /dev/nda, /dev/ndb, /dev/ndas-001000001:0.
+
+Your NetDisk will then have to be partitioned and/or formatted if not already.
+ 
+3. To partition or format, please do the following:
+
+WARNING: All data will be erased.
+
+# fdisk /dev/nda, 
+# mkfs -t ext2 /dev/nda1 ...
+
+Your NetDisk is now ready for use!
+ 
+= Additional Commands =
+
+To disable the NetDisk:
+
+/usr/sbin/ndasadmin disable -s 1
+ 
+ Note: disable is to make the NetDisk to be disconnected from the Linux machine. especially it will release the exclusively write permission and the other Linux / MS Windows machine can gain the exclusive write permission.
+ 
+To Unregister the NetDisk
+
+/usr/sbin/ndasadmin unregister --name MyDisk
+ 
+ Note: 'unregister' is to delete the registration so that the NetDisk is not registered in the next booting of Linux machine.
+ 
+ Note: The name 'MyDisk' should be the parameter you set on 'register' command.
+
+4. Trademark
+
+The Linux trademark is a U.S. registered trademark of Linux Torvalds.
+
+The Red Hat trademark is a registered trademark of Red Hat, Inc. in the United States and other countries.
+
+The Fedora trademark is a registered trademark of Red Hat, Inc. in the United States and other countries.
+
+The SuSE trademark is a registered trademark of Novell, Inc. in the United States and other countries
+
+All other trademarks and copyrights referred to are the property of their respective owners.
+
