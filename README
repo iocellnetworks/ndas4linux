@@ -1,0 +1,30 @@
+The NDAS Driver and Utility for Linux. 
+
+NDAS Hardware, such as the NETDISK by IOCELL Networks is used to connect
+block devices, to computers via the network.
+
+For more information about NDAS usage please visit us on the web:
+	
+	http://www.iocellnetworks.com
+	email: support@iocellnetworks.com
+
+For NDAS hardware manufacturing licenses or designs, please contact:
+	
+	sales@iocellnetworks.com
+
+The files in this repository only pertain to Linux kernels 3.2.0. 
+For other NDAS versions for Linux, and for compiling instructions, please 
+visit our old development site:
+
+	http://ndas4linux.iocellnetworks.com
+	
+For other information about this driver please contact via email: 
+
+	linux@iocellnetworks.com
+		
+
+2012-10-04 History: 
+NDAS was created by Ximeta as a proprietary connection system for
+Network Direct Attached Storage devices. IOCELL Networks took ownership of
+all patents and technology rights to NDAS in 2011. From 2012 the connection
+packages are being open sourced. 
