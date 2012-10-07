@@ -12,9 +12,9 @@ For NDAS hardware manufacturing licenses or designs, please contact:
 	
 	sales@iocellnetworks.com
 
-The files in this repository only pertain to Linux kernels 3.2.0. 
-For other NDAS versions for Linux, and for compiling instructions, please 
-visit our old development site:
+The files in this repository only pertain to kernels newer than 3.2.0. 
+For other NDAS versions for Linux and for compiling instructions, please 
+visit our development site:
 
 	http://ndas4linux.iocellnetworks.com
 	
