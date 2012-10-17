@@ -40,18 +40,14 @@ When ndas-admin-x.rpm installs it should automatically start ndas.
 	$ sudo rpm -ivh ndas-kernel-3.4.4.x86-fc16.i386.rpm
 	$ sudo rpm -ivh ndas-admin-3.4.4.x86-fc16.i386.rpm 
 
-	# removing rpm #
-	$ sudo rpm -ev ndas-admin-3.4.4.x86-fc16.i386 
-	$ sudo rpm -ev ndas-kernel-3.4.4.x86-fc16.i386
-	
 
 == Removing rpms
 When the kernel version changes, you may need to remove the existing versions
 then rebuild from the new source.
 
-$ sudo ndasadmin disable -s #    <- Do this for each slot that is in use
-$ sudo rpm -ev ndas-admin-3.4.4.x86-fc16.i386 
-$ sudo rpm -ev ndas-kernel-3.4.4.x86-fc16.i386
+	$ sudo ndasadmin disable -s #    <- Do this for each slot that is in use
+	$ sudo rpm -ev ndas-admin-3.4.4.x86-fc16.i386 
+	$ sudo rpm -ev ndas-kernel-3.4.4.x86-fc16.i386
 
 
 ----
