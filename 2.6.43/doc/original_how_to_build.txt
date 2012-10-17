@@ -1,0 +1,31 @@
+ * Build Options
+   - debug output
+	set/unset XPLAT_DEBUG
+   - compiler optimization
+	set XPLAT_OPTIMIZATION="" to disable the compiler optimization
+	set XPLAT_OPTIMIZATION="-O1" to compile the code with -O1 flags
+	if unset and XPLAT_DEBUG is set, the objects is generated with -O2
+	if unset and XPLAT_DEBUG is unset, the objects is generated without -O2
+
+ * Linux kernel mode
+   - For x86 kernel, execute
+     ( export NDAS_KERNEL_PATH=/usr/src/linux-2.4.21-99;
+       export NDAS_KERNEL_VERSION=2.4.21-99;
+       make nxp-os=linux linux-rel i686-rpm)
+     if you don't specify the path and the version, the Makefile will guess the version by 'uname -r' and look for the traditional path for the kernel
+
+ * Linux user mode
+   - For x86, just run make
+   - Set nxp-cpu environment variable to CPU name and nxp-os to linuxum. Currently supported nxp-cpu is x86 only.
+
+ * vxWorks
+   - Define __VXWORKS__ in project setting.
+
+ * PS2
+   - Run ps2env.bat in cygwin environment. 
+   - Run ps2make.sh in linux environment.
+     Make sure 
+        the ps2sdk is installed on /usr/local/ps2dev/ps2sdk
+        the ps2lib is installed on /usr/local/ps2dev/ps2lib
+
+
