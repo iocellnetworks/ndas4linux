@@ -12,9 +12,22 @@ For NDAS hardware manufacturing licenses or designs, please contact:
 	
 	sales@iocellnetworks.com
 
-The files in this repository only pertain to kernels newer than 3.2.0. 
-For other NDAS versions for Linux and for compiling instructions, please 
-visit our development site:
+The files in this repository only pertain to kernel 2.6.32 and above. 
+
+There are two basic steps needed to install NDAS from the source. Please see
+the instructions for each step in the doc/ folder.
+
+        1) Export the correct architecture to a build folder.
+           x.x.x/doc/how_to_export.txt
+
+	2) Build and install the kernel modules from the exported source.
+           x.x.x/doc/how_to_build.txt
+
+        3) Optionally, there are instructions on how to build rpm or deb
+           packages from the exported source also in the doc folder. 
+
+For prebuild versions for some major distributions in the native installer
+packages our development site:
 
 	http://ndas4linux.iocellnetworks.com
 	
