@@ -3535,7 +3535,7 @@ Features register
 		}
 			
 		
-		debug_udev(1, "COM[0x%02x] NSEC[%d] LBA[0x%llx]", com, nsec, lba);
+		debug_udev(1, "COM[0x%02x] NSEC[%d] LBA[0x%lx]", com, nsec, lba);
 
 
 		if(nsec != (req->reqlen >> 9) ) {
@@ -3553,7 +3553,7 @@ Features register
 		}
 
 		if( (xuint64)(nsec + lba) >= sectorCount ) {
-			debug_udev(1, "BUG COM[0x%02x]  NSEC[%d] LBA[0x%llx] totalcount[0x%llx]", com, nsec, lba, sectorCount);
+			debug_udev(1, "BUG COM[0x%02x]  NSEC[%d] LBA[0x%lx] totalcount[0x%lx]", com, nsec, lba, sectorCount);
 				sal_memset(pc_req->sensedata, 0, DEFAULT_SENSE_DATA);
 				ndas_pc_io_set_sensedata(pc_req->sensedata, 
 					SCSI_SENSE_ILLEGAL_REQUEST, SCSI_ADSENSE_INVALID_CDB, 0);
@@ -3623,7 +3623,7 @@ Features register
 		}
 			
 		
-		debug_udev(1, "COM[0x%02x] NSEC[%d] LBA[0x%llx]", com, nsec, lba);
+		debug_udev(1, "COM[0x%02x] NSEC[%d] LBA[0x%lx]", com, nsec, lba);
 
 
 		if(nsec != (req->reqlen >> 9) ) {
@@ -3641,7 +3641,7 @@ Features register
 		}
 
 		if( (xuint64)(nsec + lba) >= sectorCount ) {
-			debug_udev(1, "BUG: COM[0x%02x] NSEC[%d] LBA[0x%llx] totalcount[0x%llx]", com, nsec, lba, sectorCount);
+			debug_udev(1, "BUG: COM[0x%02x] NSEC[%d] LBA[0x%lx] totalcount[0x%lx]", com, nsec, lba, sectorCount);
 				sal_memset(pc_req->sensedata, 0, DEFAULT_SENSE_DATA);
 				ndas_pc_io_set_sensedata(pc_req->sensedata, 
 					SCSI_SENSE_ILLEGAL_REQUEST, SCSI_ADSENSE_INVALID_CDB, 0);
@@ -3722,7 +3722,7 @@ Features register
 		}
 			
 		
-		debug_udev(1, "COM[0x%02x] NSEC[%u] LBA[0x%llx]", com, nsec, lba);
+		debug_udev(1, "COM[0x%02x] NSEC[%u] LBA[0x%lx]", com, nsec, lba);
 
 
 		if(nsec != (req->reqlen >> 9) ) {
@@ -3739,7 +3739,7 @@ Features register
 		}
                                                            
 		if( (xuint64)(nsec + lba) >= sectorCount ) {
-			debug_udev(1, "BUG: COM[0x%02x] NSEC[%d] LBA[0x%llx] totalcount[0x%llx]", com, nsec, lba, sectorCount);
+			debug_udev(1, "BUG: COM[0x%02x] NSEC[%d] LBA[0x%lx] totalcount[0x%lx]", com, nsec, lba, sectorCount);
 				sal_memset(pc_req->sensedata, 0, DEFAULT_SENSE_DATA);
 				ndas_pc_io_set_sensedata(pc_req->sensedata, 
 				    SCSI_SENSE_ILLEGAL_REQUEST, SCSI_ADSENSE_INVALID_CDB, 0);
@@ -3846,7 +3846,7 @@ Features register
 		}
 			
 		
-		debug_udev(1, "COM[0x%02x] NSEC[%d] LBA[0x%llx]", com, nsec, lba);
+		debug_udev(1, "COM[0x%02x] NSEC[%d] LBA[0x%lx]", com, nsec, lba);
 
 
 		if(nsec != (req->reqlen >> 9) ) {
@@ -3863,7 +3863,7 @@ Features register
 		}
 
 		if( (xuint64)(nsec + lba) >= sectorCount ) {
-			debug_udev(1, "BUG: COM[0x%02x]  NSEC[%d] LBA[0x%llx] totalcount[0x%llx]", com, nsec, lba, sectorCount);
+			debug_udev(1, "BUG: COM[0x%02x]  NSEC[%d] LBA[0x%lx] totalcount[0x%lx]", com, nsec, lba, sectorCount);
 			sal_memset(pc_req->sensedata, 0, DEFAULT_SENSE_DATA);
 			ndas_pc_io_set_sensedata(pc_req->sensedata, 
 				SCSI_SENSE_ILLEGAL_REQUEST, SCSI_ADSENSE_INVALID_CDB, 0);
@@ -3906,10 +3906,10 @@ Features register
 		}
 			
 		
-		debug_udev(1, "COM[0x%02x] NSEC[%d] LBA[0x%llx]", com, nsec, lba);
+		debug_udev(1, "COM[0x%02x] NSEC[%d] LBA[0x%lx]", com, nsec, lba);
 
 		if( (xuint64)(nsec + lba) >= sectorCount ) {
-			debug_udev(1, "BUG COM[0x%02x]  NSEC[%d] LBA[0x%llx] totalcount[0x%llx]", com, nsec, lba, sectorCount);
+			debug_udev(1, "BUG COM[0x%02x]  NSEC[%d] LBA[0x%lx] totalcount[0x%lx]", com, nsec, lba, sectorCount);
 			sal_memset(pc_req->sensedata, 0, DEFAULT_SENSE_DATA);
 			ndas_pc_io_set_sensedata(pc_req->sensedata, 
 				SCSI_SENSE_ILLEGAL_REQUEST, SCSI_ADSENSE_INVALID_CDB, 0);
@@ -3968,11 +3968,11 @@ Features register
 		}
 			
 		
-		debug_udev(1, "COM[0x%02x] NSEC[%d] LBA[0x%llx]", com, nsec, lba);
+		debug_udev(1, "COM[0x%02x] NSEC[%d] LBA[0x%lx]", com, nsec, lba);
 
 
 		if( (xuint64)(nsec + lba) >= sectorCount ) {
-			debug_udev(1, "BUG: COM[0x%02x] NSEC[%d] LBA[0x%llx] totalcount[0x%llx]", com, nsec, lba, sectorCount);
+			debug_udev(1, "BUG: COM[0x%02x] NSEC[%d] LBA[0x%lx] totalcount[0x%lx]", com, nsec, lba, sectorCount);
 			sal_memset(pc_req->sensedata, 0, DEFAULT_SENSE_DATA);
 			ndas_pc_io_set_sensedata(pc_req->sensedata, 
 				SCSI_SENSE_ILLEGAL_REQUEST, SCSI_ADSENSE_INVALID_CDB, 0);
@@ -4214,8 +4214,8 @@ ndas_error_t ndas_io_ata_process(logunit_t * l_udev, ndas_io_request * req)
 
 			REVERSE_BYTES_64(&readCapacityDataEx.LogicalBlockAddress, &logicalBlockAddress);
 
-			debug_udev(1, "SCSIOP_READ_CAPACITYEX blockaddress ORGINAL 0x%llx", logicalBlockAddress);
-			debug_udev(1, "SCSIOP_READ_CAPACITYEX blockaddress 0x%llx", readCapacityDataEx.LogicalBlockAddress);
+			debug_udev(1, "SCSIOP_READ_CAPACITYEX blockaddress ORGINAL 0x%lx", logicalBlockAddress);
+			debug_udev(1, "SCSIOP_READ_CAPACITYEX blockaddress 0x%lx", readCapacityDataEx.LogicalBlockAddress);
 
 
 			blockSize = s_info->sector_size;
@@ -4678,7 +4678,7 @@ ndas_error_t ndas_io_ata_process(logunit_t * l_udev, ndas_io_request * req)
 									+ ((xuint64)pc_req->cmd[2] << 8) 
 									+ (((xuint64)pc_req->cmd[1] & 0x1f) << 16));
 				transferblocks =  pc_req->cmd[4];
-				debug_udev(3, "CALL READ6 total sector %lldlogicalBlockAddress %lld tansferbloks %d buflen %d", 
+				debug_udev(3, "CALL READ6 total sector %lu logicalBlockAddress %lu tansferbloks %d buflen %d", 
 													total_sector, logicalBlockAddress, transferblocks, req->reqlen);	
 			
 			}else if (pc_req->cmd[0] == SCSIOP_READ) {
@@ -4692,7 +4692,7 @@ ndas_error_t ndas_io_ata_process(logunit_t * l_udev, ndas_io_request * req)
 				transferblocks =(xuint32) ((xuint32)cdb->CDB10.TransferBlocksLsb 
 								+ ((xuint32)cdb->CDB10.TransferBlocksMsb << 8));
 
-				debug_udev(3, "CALL READ total sector %lldlogicalBlockAddress %lld tansferbloks %d buflen %d", 
+				debug_udev(3, "CALL READ total sector %lu logicalBlockAddress %lu tansferbloks %d buflen %d", 
 													total_sector, logicalBlockAddress, transferblocks, req->reqlen);
 				
 			}else if (pc_req->cmd[0] == SCSIOP_READ12){
@@ -4705,7 +4705,7 @@ ndas_error_t ndas_io_ata_process(logunit_t * l_udev, ndas_io_request * req)
 								+ ((xuint32)cdb->READ12.TransferLength[2] << 8)
 								+ ((xuint32)cdb->READ12.TransferLength[1] << 16)
 								+ ((xuint32)cdb->READ12.TransferLength[0] << 24));
-				debug_udev(3, "CALL READ12 total sector %lldlogicalBlockAddress %lld tansferbloks %d buflen %d", 
+				debug_udev(3, "CALL READ12 total sector %lu logicalBlockAddress %lu tansferbloks %d buflen %d", 
 													total_sector, logicalBlockAddress, transferblocks, req->reqlen);
 			}else if (pc_req->cmd[0] == SCSIOP_READ16) {
 				logicalBlockAddress = (xuint64)((xuint64)cdb->READ16.LogicalBlock[7]
@@ -4721,7 +4721,7 @@ ndas_error_t ndas_io_ata_process(logunit_t * l_udev, ndas_io_request * req)
 								+ ((xuint32)cdb->READ16.TransferLength[2] << 8)
 								+ ((xuint32)cdb->READ16.TransferLength[1] << 16)
 								+ ((xuint32)cdb->READ16.TransferLength[0] << 24));
-				debug_udev(3, "CALL READ12 total sector %lld logicalBlockAddress %lld tansferbloks %d buflen %d", 
+				debug_udev(3, "CALL READ12 total sector %lu logicalBlockAddress %lu tansferbloks %d buflen %d", 
 													total_sector, logicalBlockAddress, transferblocks, req->reqlen);
 			}
 			
@@ -5278,14 +5278,14 @@ ndas_error_t ndas_io(int slot, xint8 cmd, ndas_io_request* req, xbool bound_chec
         total_sector = log_udev->info.sectors;
         reqed_sector = req->start_sec;
         if (reqed_sector >= total_sector || reqed_sector + req->num_sec > total_sector) {
-            debug_udev(1, "reqed_sector=%llu total_sector=%llu req->num_sec=%u", 
+            debug_udev(1, "reqed_sector=%lu total_sector=%lu req->num_sec=%u", 
                 reqed_sector, total_sector, req->num_sec);
             sal_assert(reqed_sector + req->num_sec <= total_sector);
             return NDAS_ERROR_INVALID_RANGE_REQUEST;
         }
     }
 
-    debug_udev(8, "ing start sector %llu, count %d", req->start_sec, req->num_sec);
+    debug_udev(8, "ing start sector %lu, count %d", req->start_sec, req->num_sec);
     debug_udev(8, "req->done_arg=%p", req->done_arg);
 
     tir = tir_alloc(cmd, req);

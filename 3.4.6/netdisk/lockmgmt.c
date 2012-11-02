@@ -961,7 +961,7 @@ GetBufferLockPendingRequestsWithHostInfo(
             requestCount = ((xuint32)targetdata & TARGETDATA_REQUEST_COUNT_MASK);
             if(RequestCounts)
                 *RequestCounts = requestCount;
-                debug_lock(2, "TargetData:0x%llu intentionCount:%u In-mem:%u",
+                debug_lock(2, "TargetData:0x%lu intentionCount:%u In-mem:%u",
                 targetdata,
                 requestCount,
                 BuffLockCtl->RequestCountWhenReleased);
@@ -1419,21 +1419,21 @@ NdasReleaseBufferLock(
         release = TRUE;
     } else if(Force) {
         release = TRUE;
-        debug_lock(2, "Force option on.  Acc=%llu Elap=%ld Diff=%ld",
+        debug_lock(2, "Force option on.  Acc=%lu Elap=%ld Diff=%ld",
             BuffLockCtl->AccumulatedIOBytes,
             (xulong)(currentTime - (BuffLockCtl->AcquisitionExpireTime - BuffLockCtl->AcquisitionMaxTime)),
             (xulong)(currentTime - BuffLockCtl->AcquisitionExpireTime)
             );
     } else if(BuffLockCtl->AcquisitionExpireTime <= currentTime) {
         release = TRUE;
-        debug_lock(2, "Time over. Acc=%llu Elap=%ld Diff=%ld", 
+        debug_lock(2, "Time over. Acc=%lu Elap=%ld Diff=%ld", 
             BuffLockCtl->AccumulatedIOBytes,
             (xulong)(currentTime - (BuffLockCtl->AcquisitionExpireTime - BuffLockCtl->AcquisitionMaxTime)),
             (xulong)(currentTime - BuffLockCtl->AcquisitionExpireTime)
             );
     } else if(BuffLockCtl->AccumulatedIOBytes >= BuffLockCtl->MaxIOBytes) {
         release = TRUE;
-        debug_lock(2, "Bytes over. Acc=%llu Elap=%ld Diff=%ld", 
+        debug_lock(2, "Bytes over. Acc=%lu Elap=%ld Diff=%ld", 
             BuffLockCtl->AccumulatedIOBytes,
             (xulong)(currentTime - (BuffLockCtl->AcquisitionExpireTime - BuffLockCtl->AcquisitionMaxTime)),
             (xulong)(currentTime - BuffLockCtl->AcquisitionExpireTime)
