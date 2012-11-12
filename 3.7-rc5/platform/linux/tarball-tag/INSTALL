@@ -1,0 +1,29 @@
+= Install the NDAS driver =
+
+1. Install the rpm for redhat or suse derived distros
+
+This is for Redhat, Fedora Core, CentOS, SuSE, Mandrake and Mandriva.
+Download the files and execute the *.bin file to get the binary rpm. you should agree to the License Terms.
+
+$ /bin/sh ./ndas-kernel-1.0.0-2.4.18_14.rh8.52.i686.rpm.bin
+...
+...
+# rpm -ivh ndas-kernel-1.0.0-2.4.18_14.52.i686.rpm
+# rpm -ivh ndas-admin-1.0.0-52.i686.rpm
+
+ Note: '$' before the command means that the command can be executed with the regular user account, 
+       meanwhile '#' before the command means that the command must be executed with the root privileged account.
+       
+2. Install the deb
+
+This is for Debian, and Ubuntu. Download the NDAS beta driver file then execute,
+
+$ /bin/sh ./ndas-kernel_1.0.0-2.4.27_2_686.56_i386.deb.bin
+...
+...
+# dpkg -i ndas-kernel_1.0.0-2.4.27_2_686.56_i386.deb
+# dpkg -i ndas-admin_1.0.0-125_i386.deb
+
+3. Build and install from the tarball
+
+This is for Gentoo, any other distros or the pre-built binary driver is not provided for your kernel. 
