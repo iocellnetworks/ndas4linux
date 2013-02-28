@@ -849,9 +849,12 @@ static struct device_driver ndas_scsi_driver = {
 
 
 
-static void ndas_scsi_release_adapter(struct device * dev)
+static void ndas_scsi_release_adapter(struct device *dev)
 {
-	struct ndas_slot * ndas_dev = dev_to_ndas_slot(dev);
+	struct ndas_slot *ndas_dev;
+	
+	ndas_dev = dev_to_ndas_slot(dev);
+	
 	dbgl_scsi(3, "call ndas_scsi_release_adapter for slot:%d \n", ndas_dev->info.slot);
 	printk(KERN_INFO "COMPLETE REMOVE NDAS_SCSI ADAPTOR!\n");
 	
