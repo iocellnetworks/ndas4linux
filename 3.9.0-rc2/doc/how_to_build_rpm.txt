@@ -1,0 +1,58 @@
+= How to build the rpm =
+After you have a working NDAS version on your system, you can use these 
+instructions to test if the rpm build packages can install and run.
+
+
+== Prerequisites ==
+
+	make, gcc, bzip2, kernel-devel, rpm-build 
+
+
+== How to build ==
+The basic procedure is as follows:
+
+	Download the kernel version tarball.
+	Use rpmbuild to create the installer.
+	Find the kernel module and admin package and install. 
+
+
+== Where is the tarball? ==
+You can download a previously exported version from our downloads at 
+http://linux.iocellnetworks.com or you can use the exported tarball resulting
+from the how_to_export.txt instructions. 
+
+
+== Building the installer ==
+
+	$ rpmbuild -tb ndas-3.4-4.x86.tar.gz 
+
+On the default Fedora machine it generates the packages your home dir. 
+
+	$ ls ~/rpmbuild/RPMS/i386/
+	ndas-admin-3.4.4.x86-fc16.i386.rpm   
+	ndas-kernel-3.4.4.x86-fc16.i386.rpm
+
+
+== Install and test ==
+When ndas-admin-x.rpm installs it should automatically start ndas.
+
+	$ cd ~/rpmbuild/RPMS/i386/
+	$ sudo rpm -ivh ndas-kernel-3.4.4.x86-fc16.i386.rpm
+	$ sudo rpm -ivh ndas-admin-3.4.4.x86-fc16.i386.rpm 
+
+
+== Removing rpms
+When the kernel version changes, you may need to remove the existing versions
+then rebuild from the new source.
+
+	$ sudo ndasadmin disable -s #    <- Do this for each slot that is in use
+	$ sudo rpm -ev ndas-admin-3.4.4.x86-fc16.i386 
+	$ sudo rpm -ev ndas-kernel-3.4.4.x86-fc16.i386
+
+
+----
+See also
+* how_to_use_ndasadmin.txt
+* how_to_build.txt
+
+
