@@ -12,13 +12,10 @@
 # Change it here or specify it on the "make" command line
 #
 nxpl-path=platform/linux
-ifeq ($(nxpo-ndaslinux),y)
-nxpl-tarball-path=$(nxpl-path)/tarball-linux
-else
+
 nxpl-tarball-path=$(nxpl-path)/tarball-tag
-endif
-ifneq ($(nxp-vendor),)
-nxpl-vendor-path=$(nxpl-path)/$(nxp-vendor)
+ifeq ($(nxp-cpu),x86_64)
+	nxpl-tarball-path=$(nxpl-path)/tarball-64
 endif
 
 all: 
@@ -41,17 +38,10 @@ include $(nxpl-path)/rpm.mk
 ifeq ($(nxp-vendor),openwrt)
 include $(nxpl-path)/ipkg.mk
 endif
-#	
+
 #
 # Test make file
 #	
 include $(nxpl-path)/test.mk
-
-ifneq ($(nxp-vendor),)
-#
-# Vendor specific files
-# 
--include $(nxpl-vendor-path)/module.mk
-endif
 
 include $(nxpl-path)/xixfs/module.mk
