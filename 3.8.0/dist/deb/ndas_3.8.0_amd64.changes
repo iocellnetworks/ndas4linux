@@ -1,0 +1,32 @@
+Format: 1.8
+Date: Sat, 25 May 2013 14:00:00 -0500
+Source: ndas
+Binary: ndasadmin ndas-modules-src
+Architecture: source all amd64
+Version: 3.8.0
+Distribution: unstable
+Urgency: low
+Maintainer: Ximeta, Inc.
+Changed-By: NDAS Users <linux@iocellnetworks.com>
+Description: 
+ ndas-modules-src - Kernel module source and NDAS core library for the NDAS device.
+ ndasadmin  - NDAS administration software
+Changes: 
+ ndas (3.8.0) unstable; urgency=low
+ .
+   * Ubuntu raring package
+Checksums-Sha1: 
+ d54622cd03c196f775d7bf56aa8d4d9c48059a2a 563 ndas_3.8.0.dsc
+ c7b08098103f10cf5979040d5ff1aea029704ff8 245461 ndas_3.8.0.tar.gz
+ ba961db03a5b9578bc6345f67d3e2654fbb60418 207588 ndas-modules-src_3.8.0_all.deb
+ 531482b4f46355966f2179e84e5a63d7908c1fb2 22778 ndasadmin_3.8.0_amd64.deb
+Checksums-Sha256: 
+ fa5c065c9a6a9c68fdc1aa19043ac84e649e4021e731ec941ac5b25332be8349 563 ndas_3.8.0.dsc
+ 3715d943f88686ebf1fa726948c8a23dd292f4afb2455bb81372f5c7886a7301 245461 ndas_3.8.0.tar.gz
+ 9c714ddd99f7e2c9fcfdcb7fde4c08f78f5a720d6c81ba6f8bd566b80030a690 207588 ndas-modules-src_3.8.0_all.deb
+ 9d224074e77a606865ce5dff123cea9c0d0edcf4681e6afabd01511426990886 22778 ndasadmin_3.8.0_amd64.deb
+Files: 
+ d695b7d4e5eaf847b5ba2fdb647e8e3e 563 non-free/admin optional ndas_3.8.0.dsc
+ 2fd74a497ec0ee16aa0042ef0a166b0d 245461 non-free/admin optional ndas_3.8.0.tar.gz
+ 27b41bd190e20f6ee688a609dbd32419 207588 non-free/admin optional ndas-modules-src_3.8.0_all.deb
+ dd7e5939afa7a015d4331c1bd28effe1 22778 non-free/admin optional ndasadmin_3.8.0_amd64.deb
