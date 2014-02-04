@@ -1784,7 +1784,7 @@ conn_text_target_data(uconn_t *conn, xbool is_set, TEXT_TARGET_DATA* data)
 
 #ifdef DEBUG
     if (is_set){
-        debug_conn(4, "Setting target data: 0x%llu", *data);
+        debug_conn(4, "Setting target data: 0x%lu", *data);
     }
 #endif
 
@@ -1811,7 +1811,7 @@ conn_text_target_data(uconn_t *conn, xbool is_set, TEXT_TARGET_DATA* data)
 		// Network endian to host endian.
         *data = lsp_ntohll(*data);
 #ifdef DEBUG
-        debug_conn(4, "Got target data: 0x%llu", *data);
+        debug_conn(4, "Got target data: 0x%lu", *data);
 #endif
     }
     return ret;
